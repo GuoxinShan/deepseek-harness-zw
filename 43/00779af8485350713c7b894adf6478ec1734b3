@@ -1,0 +1,46 @@
+.agents/notes/implemented/architecture/2026-08-18-models-provider-row-slot.i18n.yaml
+  h_04d4cd0008e41d 1-6
+.agents/notes/implemented/architecture/2026-08-18-models-provider-row-slot.md
+  h_04d4cd0008e41d 1-35
+.agents/notes/implemented/architecture/2026-08-18-models-provider-row-slot.zh.md
+  h_04d4cd0008e41d 1-35
+packages/client/ui-settings-models/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/client/ui-settings-models/README.md
+  h_04d4cd0008e41d 5
+packages/client/ui-settings-models/README.zh.md
+  h_04d4cd0008e41d 5
+packages/client/ui-settings-models/src/client/ModelsSection.tsx
+  h_04d4cd0008e41d 5-15,22,45-46,48,173-174,177,179,182-184,351-357
+packages/client/ui-settings-models/src/client/index.ts
+  h_04d4cd0008e41d 123-126
+packages/client/ui-settings-models/tests/apply.client.spec.ts
+  h_04d4cd0008e41d 78-89,153-155
+packages/client/ui-settings-models/tests/components.client.spec.tsx
+  h_04d4cd0008e41d 29-37,205,284,295-322,336,1056,1194,1216,1277
+packages/client/ui-settings-models/tests/invariant.client.spec.ts
+  h_04d4cd0008e41d 6,22-23
+packages/client/ui-settings-models/tests/provider-form.client.spec.tsx
+  h_04d4cd0008e41d 9,19-27,159,656
+packages/client/ui-settings/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/client/ui-settings/README.md
+  h_04d4cd0008e41d 5
+packages/client/ui-settings/README.zh.md
+  h_04d4cd0008e41d 5
+packages/client/ui-settings/src/client/contract/slots.ts
+  h_04d4cd0008e41d 89-104,113-125
+packages/extensions/cordis-client-runner/src/client/slot-catalog.ts
+  h_04d4cd0008e41d 1223-1265
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "4300779af8485350713c7b894adf6478ec1734b3",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
