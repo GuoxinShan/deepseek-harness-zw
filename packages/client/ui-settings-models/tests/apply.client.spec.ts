@@ -75,6 +75,18 @@ describe('ui-settings-models apply', () => {
     )()
     expect(deepSeekInjected.hooks.models).toBe(injected.controller.store)
     expect(deepSeekInjected.api).toBeDefined()
+    // The Models entry declares the per-provider row seat with its own
+    // registration: declared but empty, and a contribution can land in it.
+    const seat = before.slots.snapshot('settings.models.provider')
+    expect(seat).toHaveLength(1)
+    expect(seat[0]).toMatchObject({ name: 'settings.models.provider', kind: 'list', scope: 'root', occupants: [] })
+    const disposeAccessory = before.slots.register(
+      { name: 'settings.models.provider', id: 'row-accessory', order: 0 } as never,
+      () => null,
+    )
+    expect(before.slots.entries('settings.models.provider')).toHaveLength(1)
+    disposeAccessory()
+    expect(before.slots.entries('settings.models.provider')).toHaveLength(0)
 
     const after = await bench()
     await after.ctx.plugin({ inject: [...inject], apply }).await()
@@ -138,6 +150,9 @@ describe('ui-settings-models apply', () => {
     await fiber.dispose()
     expect(b.slots.entries('settings.section')).toHaveLength(0)
     expect(b.slots.entries('settings.onboarding')).toHaveLength(0)
+    // The row seat collapsed with its declaring entry, so a contribution's
+    // own disposer is all that remains of the extension point.
+    expect(b.slots.snapshot('settings.models.provider')).toEqual([])
     // The (ns, locale) seats are free again — the dictionary disposers ran.
     expect(() => b.locale.register('settings.models', 'zh', {})).not.toThrow()
     expect(() => b.locale.register('settings.models', 'en', {})).not.toThrow()
