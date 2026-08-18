@@ -1,0 +1,18 @@
+.agents/notes/implemented/feature/2026-08-18-dsh-web-log-subcommands.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/feature/2026-08-18-dsh-web-log-subcommands.md
+  h_04d4cd0008e41d 13
+.agents/notes/implemented/feature/2026-08-18-dsh-web-log-subcommands.zh.md
+  h_04d4cd0008e41d 13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "a0587dde4b0bad6afefebe64b97efe0569a91cd6",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
