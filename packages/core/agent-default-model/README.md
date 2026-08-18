@@ -8,6 +8,10 @@ The plugin config requires `{ provider, model }`. That composition entry is the 
 
 - `ctx.agentDefaultModel.currentSelection()` returns a detached `{ provider, model, reasoningEffort? }` selection for a newly created Agent.
 - `ctx.agentDefaultModel.saveSelection(selection)` saves the complete user selection. Without a settings provider it is a no-op and the composition entry remains current.
+- `ctx.agentDefaultModel.recallEffort(provider, model)` returns the reasoning effort the user last explicitly chose on that route, or `undefined`.
+- `ctx.agentDefaultModel.rememberEffort(provider, model, effort?)` records — or, when `effort` is `undefined`, clears — that route's remembered effort. Without a settings provider it is a no-op.
+
+The remembered efforts live in the separate `agent-model-efforts` Settings section (an entry list keyed by provider/model), so switching the default selection never overwrites them. The service stores what it is told; the consumer that consults a memory validates it against the live model capability, because a remembered level can outlive the declaration that offered it.
 
 The service does not validate catalog membership. A provider route may serve an unadvertised model, and the consumer that actually opens a model request owns availability diagnostics.
 
@@ -22,4 +26,5 @@ Changing the default affects only Agents that subsequently resolve from it. An e
 ## Known Limitations and Deferred Work
 
 - The service owns one process-wide default; per-session selection remains the entry point's responsibility.
-- Without a settings provider, `saveSelection()` cannot retain a selection for a later Agent.
+- Without a settings provider, `saveSelection()` cannot retain a selection and `rememberEffort()` cannot retain a level for a later Agent.
+- The effort memory grows one entry per route the user has explicitly tuned; it is never pruned automatically (a stale entry is dropped at consult time instead).

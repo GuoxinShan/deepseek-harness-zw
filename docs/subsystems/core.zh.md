@@ -328,7 +328,7 @@ Generated from source by `scripts/gen-cordis-catalog.ts` (verified fresh by `pnp
 
 ### `ctx.agentDefaultModel` — `AgentDefaultModelConfig`
 
-Owns the default model selection independently of any Host or transport. The composition entry remains usable without a settings provider; when one is mounted, its user layer is read live.
+Owns the default model selection and the per-route reasoning-effort memory, each independently of any Host or transport. The composition entries remain usable without a settings provider; when one is mounted, the user layer of each namespace is read live.
 
 ```ts cordis-catalog
 /**
@@ -344,9 +344,32 @@ currentSelection(): ModelSelection
  * @returns fulfillment after the optional settings write settles.
  */
 async saveSelection(next: ModelSelection): Promise<void>
+
+/**
+ * Recall the effort last explicitly chosen on one provider/model route.
+ * A hand-edited document may carry duplicate entries; the last match wins,
+ * matching the append order {@link rememberEffort} maintains.
+ * @param provider - registered provider route.
+ * @param model - provider-owned model id.
+ * @returns the remembered effort, or undefined when the route has none.
+ */
+recallEffort(provider: string, model: string): ReasoningEffortId | undefined
+
+/**
+ * Record the remembered effort for one route, or clear it when `effort` is
+ * undefined. A deployment without a settings provider keeps its composition
+ * entry, so the call fulfills with no stored effect.
+ * @param provider - registered provider route.
+ * @param model - provider-owned model id.
+ * @param effort - the explicitly chosen effort, or undefined to clear.
+ * @returns fulfillment after the optional settings write settles.
+ */
+async rememberEffort(provider: string, model: string, effort: ReasoningEffortId | undefined): Promise<void>
 ```
 
-Source: [`packages/core/agent-default-model/src/index.ts:64`](../../packages/core/agent-default-model/src/index.ts)
+Types: [ReasoningEffortId](llm-streaming.md)
+
+Source: [`packages/core/agent-default-model/src/index.ts:98`](../../packages/core/agent-default-model/src/index.ts)
 
 <a id="ctxagentloop--agentloop"></a>
 

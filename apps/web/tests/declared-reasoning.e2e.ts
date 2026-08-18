@@ -44,6 +44,10 @@ describe.skipIf(MODE === 'record')('web e2e: declared reasoning efforts reach th
             id: 'acme-think',
             name: 'Acme Think',
             reasoningEfforts: { off: null, high: 'high', max: 'ultra' },
+          }, {
+            id: 'acme-mini',
+            name: 'Acme Mini',
+            reasoningEfforts: { off: null, high: 'high' },
           }],
         },
       },
@@ -86,6 +90,56 @@ describe.skipIf(MODE === 'record')('web e2e: declared reasoning efforts reach th
     ).toContain('reasoningEffort: high')
     await expect.poll(() => trigger.getAttribute('aria-label'), { timeout: 10_000 })
       .toBe('选择模型，当前 Acme Think，推理等级 High')
+    expect(tripwire.pageErrors).toEqual([])
+  }, 60_000)
+
+  it('restores a remembered effort on re-selection and drops one the model no longer offers', async () => {
+    onTestFailed(() => saveFailureShot(page, 'web-e2e-effort-memory'))
+    const trigger = page.getByRole('button', { name: /^选择模型/ })
+    const settingsPath = join(scaffold.harnessHome, 'settings.yaml')
+    const memory = () => scaffold.ctx.settings.get(settingsNamespace('agent-model-efforts'))
+
+    // An explicit effort statement is remembered per route.
+    await trigger.click()
+    await page.getByRole('menuitem', { name: /推理等级/ }).click()
+    await page.getByRole('menuitemradio', { name: 'Max' }).click()
+    await expect.poll(async () => readFile(settingsPath, 'utf8'), { timeout: 10_000 })
+      .toContain('effort: max')
+
+    // A bare switch to Acme Mini consults an empty memory there: the provider
+    // default applies and the trigger carries no restored level.
+    await trigger.click()
+    await page.getByRole('menuitem', { name: /^模型/ }).click()
+    await page.getByRole('menuitemradio', { name: /Acme Mini/ }).click()
+    await expect.poll(() => trigger.getAttribute('aria-label'), { timeout: 10_000 })
+      .toBe('选择模型，当前 Acme Mini，推理等级 Default')
+
+    // Seed what a hand edit or an older declaration would leave behind: Mini
+    // remembers Max, which its current profile no longer offers.
+    await scaffold.ctx.settings.update(settingsNamespace('agent-model-efforts'), {
+      entries: [
+        { provider: 'acme-gateway', model: 'acme-think', effort: 'max' },
+        { provider: 'acme-gateway', model: 'acme-mini', effort: 'max' },
+      ],
+    })
+
+    // A bare switch back to Acme Think restores its remembered Max…
+    await trigger.click()
+    await page.getByRole('menuitem', { name: /^模型/ }).click()
+    await page.getByRole('menuitemradio', { name: /Acme Think/ }).click()
+    await expect.poll(() => trigger.getAttribute('aria-label'), { timeout: 10_000 })
+      .toBe('选择模型，当前 Acme Think，推理等级 Max')
+
+    // …and the stale Mini entry is dropped rather than consulted.
+    await trigger.click()
+    await page.getByRole('menuitem', { name: /^模型/ }).click()
+    await page.getByRole('menuitemradio', { name: /Acme Mini/ }).click()
+    await expect.poll(() => trigger.getAttribute('aria-label'), { timeout: 10_000 })
+      .toBe('选择模型，当前 Acme Mini，推理等级 Default')
+    await expect.poll(() => JSON.stringify(memory()), { timeout: 10_000 })
+      .toBe(JSON.stringify({
+        entries: [{ provider: 'acme-gateway', model: 'acme-think', effort: 'max' }],
+      }))
     expect(tripwire.pageErrors).toEqual([])
   }, 60_000)
 

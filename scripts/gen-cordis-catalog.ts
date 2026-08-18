@@ -234,6 +234,7 @@ export const LINK_MAP: Readonly<Record<string, string>> = {
   LlmCallConfig: 'llm-streaming.md',
   LlmModelContext: 'llm-streaming.md',
   LlmModelReasoningInfo: 'llm-streaming.md',
+  ReasoningEffortId: 'llm-streaming.md',
   LlmResolvedModelInfo: 'llm-streaming.md',
   LlmFailure: 'llm-streaming.md',
   LlmModelInfo: 'llm-streaming.md',
