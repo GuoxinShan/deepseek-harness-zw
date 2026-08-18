@@ -14,6 +14,15 @@
 
 任何修改前必须告知用户：这是 fork 本地修改、打算改什么、上游为什么没有对应能力。不允许静默改动。
 
+## 分支命名
+
+前缀按改动性质二选一：
+
+- `fix/`：仅用于修复真实缺陷——harness 自身的行为是错的。先例：`fix/wkwebview-bundle-content-length`（WKWebView 丢 chunked 响应，bundle 加载失败）。
+- `feat/`：其余全部，尤其是为开发我们的插件而被迫改源码的能力扩展（加 slot、事件、子命令）。先例：`feat/mcp-client-status-event`、`feat/models-provider-row-slot`。
+
+判断：行为坏了才是 `fix/`；让插件做到以前做不到的事，一律 `feat/`。名字描述能力而非实现形态，以免方案演进后过时（`feat/web-log-script` 最终交付的是 CLI 子命令而非 script）。
+
 ## 分支纪律
 
 修改前先检查是否已有相关 fix/feat 分支（`git branch -a`，必要时 `gh pr list --state all`）：
@@ -22,7 +31,7 @@
 - 改动足够大、依赖少、可独立交付 → 单独新开一个 `fix/` 或 `feat/` 分支。
 - 都不匹配 → 从 master 新开分支。
 
-已合并进 master 的功能分支（如 `feat/mcp-client-status-event`、`fix/models-provider-row-slot`）是完成态，不复用、不续写。
+已合并进 master 的功能分支（如 `feat/mcp-client-status-event`、`feat/models-provider-row-slot`）是完成态，不复用、不续写。
 
 ## 上游同步
 
