@@ -1,0 +1,14 @@
+FORK.md
+  h_04d4cd0008e41d 17-25,34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "9c25e0fb917870882b0cede187f78dfed259cfaa",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
