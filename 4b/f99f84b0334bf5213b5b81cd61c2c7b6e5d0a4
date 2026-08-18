@@ -1,0 +1,41 @@
+packages/session/session-persistence/tests/coordinator-contract.ts
+  h_04d4cd0008e41d 1006-1051
+.agents/notes/implemented/bug-fix/2026-08-18-session-append-concurrent-writer-guard.i18n.yaml
+  h_04d4cd0008e41d 1-6
+packages/session/session-persistence/README.zh.md
+  h_04d4cd0008e41d 59,86
+packages/session/session-persistence-jsonl/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/session/session-persistence/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/session/session-persistence/README.md
+  h_04d4cd0008e41d 59,86
+packages/session/session-persistence/src/index.ts
+  h_04d4cd0008e41d 140-142
+packages/session/session-persistence/tests/persistence.spec.ts
+  h_04d4cd0008e41d 186,189,211-212,684-722
+.agents/notes/implemented/bug-fix/2026-08-18-session-append-concurrent-writer-guard.md
+  h_04d4cd0008e41d 1-31
+packages/session/session-persistence-jsonl/README.zh.md
+  h_04d4cd0008e41d 76
+.agents/notes/implemented/bug-fix/2026-08-18-session-append-concurrent-writer-guard.zh.md
+  h_04d4cd0008e41d 1-31
+packages/session/session-persistence-sqlite/tests/sqlite.spec.ts
+  h_04d4cd0008e41d 784-794,796
+packages/session/session-persistence/src/coordinator.ts
+  h_04d4cd0008e41d 149-151,185-187,227-233,716-756,761,1022-1023,1386,1390-1391
+  h_04d4cd0008e41d 765-775,1381,1387-1389,1392-1393
+packages/session/session-persistence-jsonl/README.md
+  h_04d4cd0008e41d 76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "4bf99f84b0334bf5213b5b81cd61c2c7b6e5d0a4",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
