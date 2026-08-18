@@ -6,7 +6,7 @@ import Schema from '@deepseek-ai/schemastery'
 import { bindSnapshotSelector } from '@deepseek-ai/dsh-client-web-react'
 import type { RpcResponse, SettingsNamespaceView } from '@deepseek-ai/dsh-api-remotes/client'
 import { ModelsSection, providerCopy } from '../src/client/ModelsSection.tsx'
-import type { ModelsSectionInjected } from '../src/client/ModelsSection.tsx'
+import type { ModelsSectionInjected, ModelsSectionProps } from '../src/client/ModelsSection.tsx'
 import { CustomProviderCard } from '../src/client/CustomProviderCard.tsx'
 import { formatCapacity, parseCapacity } from '../src/client/DeepSeekModelsEditor.tsx'
 import { ModelsSettingsStore, deriveKeyRef, protocolChoices } from '../src/client/store.ts'
@@ -15,6 +15,15 @@ import { en } from '../src/client/locales.ts'
 afterEach(cleanup)
 
 const t: ModelsSectionInjected['t'] = key => en[key]
+
+/**
+ * Stand-in for the framework renderSlot seat: one marker node per configured
+ * provider row, naming the owner identity it received.
+ */
+const renderSlot = ((key: string, owner: { provider: string; displayName: string }) => {
+  if (key !== 'settings.models.provider') return null
+  return <span data-testid="row-accessory">{`${owner.provider}:${owner.displayName}`}</span>
+}) as ModelsSectionProps['renderSlot']
 
 const PROTOCOLS = ['openai-completions', 'openai-responses', 'anthropic-messages']
 
@@ -147,7 +156,7 @@ async function mountSection(options: Parameters<typeof scriptedFace>[0] = {}) {
     api: scripted.face as never,
     t,
   }
-  render(<ModelsSection {...injected} />)
+  render(<ModelsSection {...injected} renderSlot={renderSlot} />)
   return { ...scripted, controller }
 }
 
@@ -644,6 +653,7 @@ describe('provider rows', () => {
       useSnapshot={bindSnapshotSelector(controller.store)}
       api={scripted.face as never}
       t={t}
+      renderSlot={renderSlot}
     />)
 
     // Absent is "unknown", never "shipped": an adapter that answers nothing

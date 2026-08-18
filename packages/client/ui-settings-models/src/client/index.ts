@@ -120,6 +120,10 @@ export function apply(ctx: ClientContext): void {
     id: 'models',
     order: 10,
     label: () => t('nav'),
+    // The one hole each configured provider row exposes: contributions land
+    // between the row identity and the row actions (typed in ui-settings,
+    // the settings.general.item precedent one level deeper).
+    children: { 'settings.models.provider': { kind: 'list', scope: 'root' } },
     inject: injected,
   }, ModelsSection))
   ctx.slots.inject('settings.onboarding', () => ctx.slots.register({
