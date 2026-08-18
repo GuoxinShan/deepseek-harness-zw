@@ -27,3 +27,32 @@
 ## 上游同步
 
 定期 `git fetch upstream` 并把 `upstream/master` 合入 master；冲突时以保留双方语义为准，fork 本地提交不丢弃。同步后跑受影响包的聚焦测试确认 fork 改动仍然成立。
+
+## 本地启动与日志（web:log）
+
+上游没有启动包装，进程输出只去终端、关窗即失。fork 在 CLI 里加了 `web:log` / `web:log:tmp` 子命令（`apps/cli/src/web-log.ts`），启动同时落盘：
+
+```sh
+pnpm dsh web:log                # 默认 3080
+pnpm dsh web:log --port 0       # 让系统分配端口（可避开临时端口占用导致的 EADDRINUSE）
+pnpm dsh web:log:tmp            # 日志改放系统临时目录（macOS 定期自动清理，无需手动删）
+```
+
+实现方式：子命令 spawn 自身 bin 的 `dsh web …` 子进程并把输出 tee 到日志文件，转发 SIGINT/SIGTERM，退出码与子进程一致。日志位置（每次启动一个文件，`web-latest.log` 软链始终指向最新一次）：
+
+```
+默认：  ~/.dsh/logs/web-<yyyymmdd-HHMMSS>.log          # 重启后仍在，需手动清理
+tmp：   ${TMPDIR:-/tmp}/dsh-web-logs/web-<时间戳>.log  # 操作系统自动回收
+```
+
+也可用环境变量自定义目录：`DSH_WEB_LOG_DIR=/path/to/dir pnpm dsh web:log`。
+
+常用查法：
+
+| 目的 | 命令 |
+|---|---|
+| 实时跟随 | `tail -f ~/.dsh/logs/web-latest.log`（tmp 模式换成 `$TMPDIR/dsh-web-logs/web-latest.log`） |
+| 只看余量插件 | `grep 'provider-balance' ~/.dsh/logs/web-latest.log` |
+| 有哪些实例在跑 | `lsof -nP -iTCP -sTCP:LISTEN \| grep 'bin.ts web'` |
+
+清理：默认目录 `rm ~/.dsh/logs/web-*.log`（日志不按大小轮转，定期手动删）；tmp 目录不用管，系统会收。
