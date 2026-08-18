@@ -2404,6 +2404,14 @@ export const EVENT_API: readonly EventApiEntry[] = [
     parameters: [{ name: 'options', description: 'the full request. A LOOP-built request carries the process-local {@link markAgentLoopRequest} identity and arrives deep-frozen (mutation throws): its content is a pure function of the session log (the reconstructability Agent Note), so listeners read it, never rewrite it. Hand-built calls do not carry that marker; their messages already obey the immutable creation contract.' }],
   },
   {
+    name: 'mcp-client/status',
+    mode: 'emit',
+    signature: '\'mcp-client/status\'(serverName: string, status: McpClientStatus, toolCount: number): void',
+    summary: 'One MCP server connection reached a new committed state, or its live tool registration count changed.',
+    description: 'One MCP server connection reached a new committed state, or its live tool registration count changed. Emitted only after the supervisor mutated its state, never before. The emitting fiber\'s context and every ancestor context observe this through the shared event bus; `serverName` disambiguates concurrent instances. Listener failures are contained and logged by the emitter, so an observer defect cannot disrupt the supervisor\'s own state machine.',
+    parameters: [{ name: 'serverName', description: 'the configured namespace of the emitting instance.' }, { name: 'status', description: 'the connection state at this commit point.' }, { name: 'toolCount', description: 'number of tools this server currently has registered on `ctx.tools`.' }],
+  },
+  {
     name: 'session-telemetry/record',
     mode: 'waterfall',
     signature: '\'session-telemetry/record\'(record: SessionTelemetryRecord, next: () => SessionTelemetryRecord): SessionTelemetryRecord',
@@ -3366,6 +3374,10 @@ export const TYPE_API: readonly TypeApiEntry[] = [
   {
     name: 'ManualCompactAgentContext',
     declaration: 'export interface ManualCompactAgentContext extends CompactionAgentContext {\n    runMaintenance<T>(task: (signal: AbortSignal) => Promise<T>): Promise<T>;\n}',
+  },
+  {
+    name: 'McpClientStatus',
+    declaration: 'export type McpClientStatus = \'connecting\' | \'connected\' | \'reconnecting\' | \'failed\' | \'disposed\';',
   },
   {
     name: 'Message',

@@ -70,6 +70,14 @@ Every MCP tool has two names: the raw MCP name (sent on the wire in `tools/call`
 - Reconnection is budgeted per outage: after `reconnect.maxAttempts` consecutive failures the server's tools are unregistered and reconnection stops until an HMR reload or Host restart. A connection that survives past `maxDelayMs` resets the budget, so an occasionally-crashing server recovers indefinitely while a crash-looping one — even with briefly successful connects — still exhausts the cap instead of restarting forever.
 - Reconnect states are user-visible in logs: reconnecting (warn, with attempt count and delay), recovered (info), final failure and disabled-loss (error). Disposal cancels any pending reconnect. With `reconnect.enabled: false`, a lost connection keeps tools registered but failing until a reload — the manual-recovery behavior.
 
+## Events
+
+| Event | Mode | Payload |
+|---|---|---|
+| `mcp-client/status` | emit | `serverName`, `status: 'connecting' \| 'connected' \| 'reconnecting' \| 'failed' \| 'disposed'`, `toolCount` |
+
+Published at each supervisor commit point: attempt start (`connecting`), connect + initial sync settled (`connected`), backoff armed (`reconnecting`), give-up / reconnect-disabled loss / failed generation that never closed (`failed`), and disposal (`disposed`). A completed tool sync also republishes the current status because `toolCount` changes without a status transition — including a second `failed`/`disposed` carrying `toolCount: 0` once the queued unregistration runs. The emitting fiber's context and every ancestor observe the event through the shared Cordis event bus; `serverName` disambiguates concurrent instances. Listener failures are contained and logged by the emitter, so an observer defect cannot disrupt the supervisor. The fiber lifecycle alone cannot stand in for this event: with `failOnStartupError: false` a failing server still reaches an `active` fiber inside its reconnect loop.
+
 ## Services consumed
 
 | Service | Usage |

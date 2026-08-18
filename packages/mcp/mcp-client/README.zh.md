@@ -70,6 +70,14 @@ MCP 客户端桥接插件：连接外部 [Model Context Protocol](https://modelc
 - 重连按中断预算控制：连续失败达到 `reconnect.maxAttempts` 次后，该服务器的工具会被注销，重连停止，直到 HMR 重载或重启 Host。连接存活超过 `maxDelayMs` 会重置预算，因此偶尔崩溃的服务器可以无限恢复，而崩溃循环的服务器——即使短暂连接成功——仍会耗尽上限而非永远重启。
 - 重连状态在日志中对用户可见：reconnecting（warn，含尝试次数和延迟）、recovered（info）、最终失败和 disabled-loss（error）。dispose（资源释放）会取消任何待执行的重连。设置 `reconnect.enabled: false` 时，连接丢失后工具保持注册但调用失败，直到重载——即手动恢复行为。
 
+## 事件
+
+| 事件 | 模式 | 载荷 |
+|---|---|---|
+| `mcp-client/status` | emit | `serverName`、`status: 'connecting' \| 'connected' \| 'reconnecting' \| 'failed' \| 'disposed'`、`toolCount` |
+
+在 supervisor 的每个 commit（提交）点发布：尝试开始（`connecting`）、连接加初始同步完成（`connected`）、退避定时器已布防（`reconnecting`）、放弃／禁用重连后的丢失／世代未正常关闭（`failed`）、以及 dispose（资源释放，`disposed`）。一次完成的工具同步也会重新发布当前状态，因为 `toolCount` 会在状态不变时变化——包括排队注销执行后携带 `toolCount: 0` 的第二个 `failed`／`disposed`。发射 fiber 的上下文与每个祖先上下文都会通过共享的 Cordis 事件总线观察到该事件；`serverName` 用于区分并发实例。监听器失败由发射方包含并记录日志，观察者缺陷不会干扰 supervisor。仅凭 fiber 生命周期无法替代该事件：`failOnStartupError` 为 `false` 时，连接失败的服务器仍会在重连循环中达到 `active` 的 fiber。
+
 ## 消费的服务
 
 | 服务 | 用途 |
