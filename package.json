@@ -141,6 +141,7 @@
     "mock:llm": "node --import tsx packages/test-support/llm-mock-server/src/bin.ts",
     "dev:web": "tsx scripts/dev-web.ts --poll",
     "web:log": "bash scripts/web-log.sh",
+    "web:log:tmp": "DSH_WEB_LOG_DIR=\"${TMPDIR:-/tmp}/dsh-web-logs\" bash scripts/web-log.sh",
     "postinstall": "node scripts/install-lefthook.mjs"
   },
   "devDependencies": {

@@ -35,21 +35,24 @@
 ```sh
 pnpm web:log                  # 默认 3080；等价 bash scripts/web-log.sh
 pnpm web:log --port 0         # 让系统分配端口（可避开临时端口占用导致的 EADDRINUSE）
+pnpm web:log:tmp              # 日志改放系统临时目录（macOS 定期自动清理，无需手动删）
 ```
 
 日志位置（每次启动一个文件，`web-latest.log` 软链始终指向最新一次）：
 
 ```
-~/.dsh/logs/web-<yyyymmdd-HHMMSS>.log
-~/.dsh/logs/web-latest.log
+默认：  ~/.dsh/logs/web-<yyyymmdd-HHMMSS>.log          # 重启后仍在，需手动清理
+tmp：   ${TMPDIR:-/tmp}/dsh-web-logs/web-<时间戳>.log  # 操作系统自动回收
 ```
+
+也可用环境变量自定义目录：`DSH_WEB_LOG_DIR=/path/to/dir pnpm web:log`。
 
 常用查法：
 
 | 目的 | 命令 |
 |---|---|
-| 实时跟随 | `tail -f ~/.dsh/logs/web-latest.log` |
+| 实时跟随 | `tail -f ~/.dsh/logs/web-latest.log`（tmp 模式换成 `$TMPDIR/dsh-web-logs/web-latest.log`） |
 | 只看余量插件 | `grep 'provider-balance' ~/.dsh/logs/web-latest.log` |
 | 有哪些实例在跑 | `lsof -nP -iTCP -sTCP:LISTEN \| grep 'bin.ts web'` |
 
-清理：`rm ~/.dsh/logs/web-*.log`（日志不按大小轮转，定期手动删）。
+清理：默认目录 `rm ~/.dsh/logs/web-*.log`（日志不按大小轮转，定期手动删）；tmp 目录不用管，系统会收。
