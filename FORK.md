@@ -27,3 +27,29 @@
 ## 上游同步
 
 定期 `git fetch upstream` 并把 `upstream/master` 合入 master；冲突时以保留双方语义为准，fork 本地提交不丢弃。同步后跑受影响包的聚焦测试确认 fork 改动仍然成立。
+
+## 本地启动与日志（web:log）
+
+上游没有启动包装脚本，进程输出只去终端、关窗即失。fork 增加 `scripts/web-log.sh`（分支 `feat/web-log-script`），启动同时落盘：
+
+```sh
+pnpm web:log                  # 默认 3080；等价 bash scripts/web-log.sh
+pnpm web:log --port 0         # 让系统分配端口（可避开临时端口占用导致的 EADDRINUSE）
+```
+
+日志位置（每次启动一个文件，`web-latest.log` 软链始终指向最新一次）：
+
+```
+~/.dsh/logs/web-<yyyymmdd-HHMMSS>.log
+~/.dsh/logs/web-latest.log
+```
+
+常用查法：
+
+| 目的 | 命令 |
+|---|---|
+| 实时跟随 | `tail -f ~/.dsh/logs/web-latest.log` |
+| 只看余量插件 | `grep 'provider-balance' ~/.dsh/logs/web-latest.log` |
+| 有哪些实例在跑 | `lsof -nP -iTCP -sTCP:LISTEN \| grep 'bin.ts web'` |
+
+清理：`rm ~/.dsh/logs/web-*.log`（日志不按大小轮转，定期手动删）。
