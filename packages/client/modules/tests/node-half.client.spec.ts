@@ -143,9 +143,12 @@ describe('client bundle activation', () => {
     } as IncomingMessage, response)
 
     expect(status).toBe(200)
+    // Explicit length is the contract: without it node frames the response
+    // chunked, which WKWebView drops under the boot-time bundle burst.
     expect(headers).toEqual({
       'content-type': 'application/json; charset=utf-8',
       'cache-control': 'no-cache',
+      'content-length': map.length,
     })
     expect(body).toBe(map)
   })

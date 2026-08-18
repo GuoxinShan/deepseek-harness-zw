@@ -447,6 +447,9 @@ export class ClientModuleRegistry extends Service {
       res.writeHead(200, {
         'content-type': isSourceMap ? 'application/json; charset=utf-8' : 'text/javascript; charset=utf-8',
         'cache-control': 'no-cache',
+        // Explicit length: WKWebView stalls or fails chunked responses under
+        // the burst load of the boot-time bundle fan-out.
+        'content-length': body.length,
       })
       res.end(body)
     } catch {
