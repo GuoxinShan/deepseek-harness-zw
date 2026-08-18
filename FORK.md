@@ -75,3 +75,5 @@ tmp：   ${TMPDIR:-/tmp}/dsh-web-logs/web-<时间戳>.log  # 操作系统自动�
 | 有哪些实例在跑 | `lsof -nP -iTCP -sTCP:LISTEN \| grep 'bin.ts web'` |
 
 清理：默认目录 `rm ~/.dsh/logs/web-*.log`（日志不按大小轮转，定期手动删）；tmp 目录不用管，系统会收。
+
+注意盲区：`web-*.log` 只含 stdout/stderr。`ctx.logger` 的流量在 web 组合里没有出口（内建 sink 只是 1000 条内存环形缓冲，没挂 console exporter），上面的 grep 查法对走 logger 的插件无效。logger 落盘由 dsh-desktop 仓库的 `dsh-desktop-log-sink` 插件补齐（同目录 `logger-*.log`，JSONL），该行随 dsh-desktop-bridge 的 bundle 层挂载，终端 `dsh web` 同样生效。
