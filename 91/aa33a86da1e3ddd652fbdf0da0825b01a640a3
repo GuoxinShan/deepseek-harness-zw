@@ -1,0 +1,22 @@
+packages/client/modules/tests/node-half.client.spec.ts
+  h_04d4cd0008e41d 146-147,151
+packages/client/modules/src/index.ts
+  h_04d4cd0008e41d 450-452
+.agents/notes/implemented/bug-fix/2026-08-18-wkwebview-bundle-content-length.i18n.yaml
+  h_04d4cd0008e41d 1-6
+.agents/notes/implemented/bug-fix/2026-08-18-wkwebview-bundle-content-length.md
+  h_04d4cd0008e41d 1-23
+.agents/notes/implemented/bug-fix/2026-08-18-wkwebview-bundle-content-length.zh.md
+  h_04d4cd0008e41d 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "91aa33a86da1e3ddd652fbdf0da0825b01a640a3",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
