@@ -1,0 +1,24 @@
+FORK.md
+  h_04d4cd0008e41d 33,36-38,41,48
+apps/cli/src/args.ts
+  h_04d4cd0008e41d 14-15,48-57,59,83,183-208,210
+apps/cli/src/bin.ts
+  h_04d4cd0008e41d 45-49
+apps/cli/src/web-log.ts
+  h_04d4cd0008e41d 1-92
+apps/cli/tests/args.spec.ts
+  h_04d4cd0008e41d 48-58,110-112
+apps/cli/tests/web-log.spec.ts
+  h_04d4cd0008e41d 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "fc2e6dde2098db238c64664a1e302ca21828d7f8",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
