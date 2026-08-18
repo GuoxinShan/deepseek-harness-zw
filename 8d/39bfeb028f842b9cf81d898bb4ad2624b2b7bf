@@ -1,0 +1,48 @@
+.agents/notes/implemented/feature/2026-08-19-todo-completion-guard.i18n.yaml
+  h_04d4cd0008e41d 1-6
+.agents/notes/implemented/feature/2026-08-19-todo-completion-guard.md
+  h_04d4cd0008e41d 1-40
+.agents/notes/implemented/feature/2026-08-19-todo-completion-guard.zh.md
+  h_04d4cd0008e41d 1-40
+packages/bundle/base/cordis.patch.yml
+  h_04d4cd0008e41d 396-399
+packages/bundle/base/package.json
+  h_04d4cd0008e41d 108
+packages/guard/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/guard/README.md
+  h_04d4cd0008e41d 11
+packages/guard/README.zh.md
+  h_04d4cd0008e41d 11
+packages/guard/todo-completion-guard/README.i18n.yaml
+  h_04d4cd0008e41d 1-6
+packages/guard/todo-completion-guard/README.md
+  h_04d4cd0008e41d 1-35
+packages/guard/todo-completion-guard/README.zh.md
+  h_04d4cd0008e41d 1-35
+packages/guard/todo-completion-guard/package.json
+  h_04d4cd0008e41d 1-50
+packages/guard/todo-completion-guard/src/index.ts
+  h_04d4cd0008e41d 1-85
+packages/guard/todo-completion-guard/src/invariant.ts
+  h_04d4cd0008e41d 1-32
+packages/guard/todo-completion-guard/tests/todo-completion-guard.spec.ts
+  h_04d4cd0008e41d 1-169
+packages/guard/todo-completion-guard/tsconfig.json
+  h_04d4cd0008e41d 1-27
+pnpm-lock.yaml
+  h_04d4cd0008e41d 1142-1144,4589-4615
+tsconfig.host.json
+  h_04d4cd0008e41d 277
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "8d39bfeb028f842b9cf81d898bb4ad2624b2b7bf",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
