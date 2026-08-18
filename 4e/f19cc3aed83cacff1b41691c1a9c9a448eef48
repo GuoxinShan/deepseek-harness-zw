@@ -1,0 +1,56 @@
+.agents/notes/implemented/feature/2026-08-19-model-effort-memory.i18n.yaml
+  h_04d4cd0008e41d 1-6
+.agents/notes/implemented/feature/2026-08-19-model-effort-memory.md
+  h_04d4cd0008e41d 1-39
+.agents/notes/implemented/feature/2026-08-19-model-effort-memory.zh.md
+  h_04d4cd0008e41d 1-39
+apps/web/tests/declared-reasoning.e2e.ts
+  h_04d4cd0008e41d 47-50,96-145
+docs/config-catalog.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/config-catalog.md
+  h_04d4cd0008e41d 103,756
+docs/config-catalog.zh.md
+  h_04d4cd0008e41d 105,758
+docs/subsystems/core.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/subsystems/core.md
+  h_04d4cd0008e41d 323,339-359,362-364
+docs/subsystems/core.zh.md
+  h_04d4cd0008e41d 331,347-367,370-372
+packages/client/ui-model-selection/src/client/index.ts
+  h_04d4cd0008e41d 83-87,90
+packages/client/ui-model-selection/tests/browser-plugin.client.spec.ts
+  h_04d4cd0008e41d 61,71-77,142,199-202,206-217
+packages/core/agent-default-model/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/core/agent-default-model/README.md
+  h_04d4cd0008e41d 11-14,29-30
+packages/core/agent-default-model/README.zh.md
+  h_04d4cd0008e41d 11-14,29-30
+packages/core/agent-default-model/src/index.ts
+  h_04d4cd0008e41d 2-4,17-20,28-30,48-72,93-96,105,117-124,148-181
+packages/core/agent-default-model/tests/agent-default-model.spec.ts
+  h_04d4cd0008e41d 5-7,101-158
+packages/extensions/tool-cordis/src/api-catalog.ts
+  h_04d4cd0008e41d 86-87,101-112,1056
+packages/host/apiproxy/src/api-proxy.ts
+  h_04d4cd0008e41d 621-635,2242-2256,2258-2279,2283,2285,2314-2322
+packages/host/apiproxy/src/index.ts
+  h_04d4cd0008e41d 18,102-110
+packages/host/apiproxy/tests/api-proxy-models.spec.ts
+  h_04d4cd0008e41d 459-531
+scripts/gen-cordis-catalog.ts
+  h_04d4cd0008e41d 237
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "4ef19cc3aed83cacff1b41691c1a9c9a448eef48",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
