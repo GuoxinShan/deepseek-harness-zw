@@ -1,0 +1,16 @@
+packages/client/modules/src/index.ts
+  h_04d4cd0008e41d 450-452
+packages/client/modules/tests/node-half.client.spec.ts
+  h_04d4cd0008e41d 146-147,151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "56d3d14a232fe8a9556e51bfa889353004bd3e26",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
