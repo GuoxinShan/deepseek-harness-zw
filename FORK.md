@@ -33,6 +33,16 @@
 
 已合并进 master 的功能分支（如 `feat/mcp-client-status-event`、`feat/models-provider-row-slot`）是完成态，不复用、不续写。
 
+## 缺陷上报（母仓库 Discussions）
+
+需要改动源码时先评估性质：修的是 harness 自身的**真实缺陷**（行为错误），还是为插件做的能力扩展。扩展走 `feat/`、不要求上报；真实缺陷走 `fix/`，并且**必须**向母仓库反馈：
+
+1. 本地修复完成（测试全绿）并在 fork 开出 PR。
+2. 经用户确认后，向 `deepseek-ai/deepseek-harness` 提 Discussion——官方对非成员关闭了 PR 和 Issue，Discussion 是唯一通道（用 `gh api graphql` 的 `createDiscussion`，分类选 General）。
+3. Discussion 内容：问题现象、根因、修复方案与验证证据，并**携带 fork 的修复链接**（PR 或分支地址），让维护者可以直接抓取。
+
+先例：Discussion [#3007](https://github.com/deepseek-ai/deepseek-harness/discussions/3007)（WKWebView chunked 响应）与 [#3099](https://github.com/deepseek-ai/deepseek-harness/discussions/3099)（会话持久化并发写者），都附了 fork 的修复链接。
+
 ## 上游同步
 
 定期 `git fetch upstream` 并把 `upstream/master` 合入 master；冲突时以保留双方语义为准，fork 本地提交不丢弃。同步后跑受影响包的聚焦测试确认 fork 改动仍然成立。
