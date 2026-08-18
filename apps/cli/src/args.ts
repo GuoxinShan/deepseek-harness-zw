@@ -11,7 +11,8 @@
  * and `dsh --profile web -h` prints the web app's help, not this one's.
  *
  * `web` is a hardcoded alias for `--profile web`; `plugin` manages a profile's
- * plugin dependencies by forwarding to pnpm.
+ * plugin dependencies by forwarding to pnpm. The fork adds `web:log` /
+ * `web:log:tmp`, which boot the web profile while teeing output to a log file.
  * @module @deepseek-ai/dsh/args
  */
 
@@ -44,8 +45,18 @@ interface PluginInvocation {
   args: string[]
 }
 
+/** Boot the web profile with stdout/stderr teed to a timestamped log file (fork-local). */
+interface WebLogInvocation {
+  mode: 'web-log'
+  /** Log under the OS temp dir instead of $DSH_HOME/logs. */
+  tmp: boolean
+  patches: string[]
+  /** Everything after the subcommand's own flags, verbatim, for the web app. */
+  args: string[]
+}
+
 /** The resolved `dsh` invocation. Help, version, and errors exit inside {@link parseDshArgs}. */
-export type DshInvocation = ProfileInvocation | DumpConfigInvocation | PluginInvocation
+export type DshInvocation = ProfileInvocation | DumpConfigInvocation | PluginInvocation | WebLogInvocation
 
 /** Launcher flags shared by the default command and the `web` alias. */
 interface BootOptions {
@@ -69,6 +80,7 @@ Examples:
   dsh --profile tui --resume <session>       arguments after the launcher flags reach the app
   dsh --profile web --help                   the web app's own flags and help
   dsh plugin --profile tui add <package>     install a plugin into the tui profile
+  dsh web:log --port 0                       boot web with output teed to a timestamped log file (fork-local)
 `
 
 /**
@@ -168,7 +180,34 @@ export function parseDshArgs(argv: readonly string[], version: string): DshInvoc
       resolved = resolveBoot(web, 'web', options, args)
     })
 
+  /**
+   * Fork-local logged web boots: `dsh web:log` tees the web app's output to a
+   * timestamped file under $DSH_HOME/logs, `dsh web:log:tmp` under the OS temp
+   * dir. Flag shape mirrors the `web` alias minus the boot-free dumps.
+   */
+  const registerWebLog = (name: 'web:log' | 'web:log:tmp', tmp: boolean): void => {
+    const webLog = program.command(name).description(tmp
+      ? 'boot the web profile, teeing its output to a log file under the OS temp dir (fork-local)'
+      : 'boot the web profile, teeing its output to a log file under $DSH_HOME/logs (fork-local)')
+    webLog
+      .helpOption(false)
+      .allowUnknownOption()
+      .passThroughOptions()
+      .enablePositionalOptions()
+      .argument('[args...]', 'arguments for the web app (see: dsh web --help)')
+      .option('--patch <path>', 'extra patch-list overlay applied after the profile layer (repeatable)', collect)
+      .action((args: string[], options: BootOptions) => {
+        rejectParentOptions(name)
+        const patches = options.patch ?? []
+        if (patches.includes('')) program.error('error: --patch needs a path')
+        resolved = { mode: 'web-log', tmp, patches, args }
+      })
+  }
+  registerWebLog('web:log', false)
+  registerWebLog('web:log:tmp', true)
+
   const plugin = program.command('plugin').description('manage a profile\'s plugins by forwarding the remaining arguments to pnpm in the profile directory')
+
   plugin
     .requiredOption('--profile <name>', 'the profile whose plugins to manage (initialized on first use)')
     .allowUnknownOption()

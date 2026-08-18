@@ -30,22 +30,22 @@
 
 ## 本地启动与日志（web:log）
 
-上游没有启动包装脚本，进程输出只去终端、关窗即失。fork 增加 `scripts/web-log.sh`（分支 `feat/web-log-script`），启动同时落盘：
+上游没有启动包装，进程输出只去终端、关窗即失。fork 在 CLI 里加了 `web:log` / `web:log:tmp` 子命令（`apps/cli/src/web-log.ts`），启动同时落盘：
 
 ```sh
-pnpm web:log                  # 默认 3080；等价 bash scripts/web-log.sh
-pnpm web:log --port 0         # 让系统分配端口（可避开临时端口占用导致的 EADDRINUSE）
-pnpm web:log:tmp              # 日志改放系统临时目录（macOS 定期自动清理，无需手动删）
+pnpm dsh web:log                # 默认 3080
+pnpm dsh web:log --port 0       # 让系统分配端口（可避开临时端口占用导致的 EADDRINUSE）
+pnpm dsh web:log:tmp            # 日志改放系统临时目录（macOS 定期自动清理，无需手动删）
 ```
 
-日志位置（每次启动一个文件，`web-latest.log` 软链始终指向最新一次）：
+实现方式：子命令 spawn 自身 bin 的 `dsh web …` 子进程并把输出 tee 到日志文件，转发 SIGINT/SIGTERM，退出码与子进程一致。日志位置（每次启动一个文件，`web-latest.log` 软链始终指向最新一次）：
 
 ```
 默认：  ~/.dsh/logs/web-<yyyymmdd-HHMMSS>.log          # 重启后仍在，需手动清理
 tmp：   ${TMPDIR:-/tmp}/dsh-web-logs/web-<时间戳>.log  # 操作系统自动回收
 ```
 
-也可用环境变量自定义目录：`DSH_WEB_LOG_DIR=/path/to/dir pnpm web:log`。
+也可用环境变量自定义目录：`DSH_WEB_LOG_DIR=/path/to/dir pnpm dsh web:log`。
 
 常用查法：
 

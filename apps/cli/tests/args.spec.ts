@@ -45,6 +45,17 @@ describe('parseDshArgs', () => {
       .toEqual({ mode: 'profile', profile: 'tui', patches: ['a.yml'], args: ['--resume', 'b', '--patch', 'late.yml'] })
   })
 
+  it('routes the fork-local logged web boots', () => {
+    expect(parse(['web:log'])).toEqual({ mode: 'web-log', tmp: false, patches: [], args: [] })
+    expect(parse(['web:log:tmp'])).toEqual({ mode: 'web-log', tmp: true, patches: [], args: [] })
+    expect(parse(['web:log', '--port', '0']))
+      .toEqual({ mode: 'web-log', tmp: false, patches: [], args: ['--port', '0'] })
+    expect(parse(['web:log:tmp', '--patch', 'x.yml', '--dev']))
+      .toEqual({ mode: 'web-log', tmp: true, patches: ['x.yml'], args: ['--dev'] })
+    // The app's -h belongs to the booted web app, not the launcher.
+    expect(parse(['web:log', '-h'])).toEqual({ mode: 'web-log', tmp: false, patches: [], args: ['-h'] })
+  })
+
   it('routes the plugin pnpm forwarder', () => {
     expect(parse(['plugin', '--profile', 'tui', 'add', 'turtle-ui']))
       .toEqual({ mode: 'plugin', profile: 'tui', args: ['add', 'turtle-ui'] })
@@ -96,6 +107,9 @@ describe('parseDshArgs', () => {
     expect(exitCode(['plugin', '--profile', 'tui'])).toBe(1) // nothing to forward
     expect(exitCode(['plugin', '--profile', ''])).toBe(1)
     expect(exitCode(['--profile', 'x', 'plugin', 'add', 'y'])).toBe(1)
+    expect(exitCode(['web:log', '--patch='])).toBe(1)
+    expect(exitCode(['web:log:tmp', '--patch='])).toBe(1)
+    expect(exitCode(['--profile', 'web', 'web:log'])).toBe(1) // parent options rejected
   })
 
   it('keeps its own help for an invocation with no app to hand it to', () => {

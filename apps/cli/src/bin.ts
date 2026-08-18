@@ -42,6 +42,11 @@ switch (invocation.mode) {
     process.exit(runPlugin(invocation.profile, invocation.args))
     break
   }
+  case 'web-log': {
+    const { runWebLog } = await import('./web-log.ts')
+    runWebLog({ tmp: invocation.tmp, patches: invocation.patches, args: invocation.args })
+    break
+  }
   case 'dump-config': {
     const { runDumpConfig } = await import('./dump-config.ts')
     runDumpConfig(invocation.profile, invocation.defaultOnly, invocation.patches)
