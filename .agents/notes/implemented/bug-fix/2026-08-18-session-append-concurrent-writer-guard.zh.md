@@ -10,11 +10,11 @@ Status: implemented
 
 ## Decision
 
-[共享写入协调器](../architecture/2026-06-18-shared-persistence-write-coordinator.md)只在记住的持久修订值处认为自己的每 id 游标有效。`SessionState.revision` 记录游标建立时的源限定修订值——由 `commitPrepared`（其新鲜性校验刚刚钉定该值）和活动前缀接管设置——并在每次 `appendBatch` 成功后通过 `readStoredRevision` 刷新。每次 append 前，`appendCore` 重读修订值，不一致就以指明并发写者的错误拒绝写入。被拒绝的 `appendBatch` 必须保持已存储日志不变（钩子契约现已写明回滚义务），因此失败路径会在调用方重试前重新建立基线：瞬时 I/O 故障不会卡死会话的持久化，既有的回滚重试测试钉住了这一点。该防护以批次为粒度——在同一批次内竞速的外部 append 仍会交错——两个持久化 README 都记录了该窗口。
+[共享写入协调器](../architecture/2026-06-18-shared-persistence-write-coordinator.md)只在记住的持久修订值处认为自己的每 id 游标有效。`SessionState.revision` 记录游标建立时的源限定修订值——由 `commitPrepared`（其新鲜性校验刚刚钉定该值）和活动前缀接管设置——并在每次 `appendBatch` 成功后通过 `readStoredRevision` 刷新（尽力而为：刷新失败会删除基线、把防护降级为进程内游标，因为已持久化的批次仍必须成功返回——保留陈旧基线会把之后每次 append 误拒为外部写入）。每次 append 前，`appendCore` 重读修订值，不一致就以指明并发写者的错误拒绝写入。被拒绝的 `appendBatch` 必须保持已存储日志不变（钩子契约现已写明回滚义务），因此失败路径会在调用方重试前重新建立基线：瞬时 I/O 故障不会卡死会话的持久化，既有的回滚重试测试钉住了这一点。该防护以批次为粒度——在同一批次内竞速的外部 append 仍会交错——两个持久化 README 都记录了该窗口。
 
 ## Verification
 
-一个共享协调器合约场景用同一存储域上的两个 context 模拟两个进程——一个恢复并发布会话，另一个保持陈旧存活会话——断言陈旧方的 flush 拒绝且已存储日志仍能干净加载；它对 memory、JSONL（两种编码）和 SQLite 后端运行。既有 JSONL 与 zstd 回滚重试测试原样通过，证明回滚过的 append 不会误触发防护。SQLite 事务中回滚测试改为直接调用 `appendBatch` 钩子，因为协调器防护现在合理地先拒绝它原来的服务层场景。
+一个共享协调器合约场景用同一存储域上的两个 context 模拟两个进程——一个恢复并发布会话，另一个保持陈旧存活会话——断言陈旧方的 flush 拒绝且已存储日志仍能干净加载；它对 memory、JSONL（两种编码）和 SQLite 后端运行。既有 JSONL 与 zstd 回滚重试测试原样通过，证明回滚过的 append 不会误触发防护。SQLite 事务中回滚测试改为直接调用 `appendBatch` 钩子，因为协调器防护现在合理地先拒绝它原来的服务层场景。单元测试分别钉住两条尽力刷新路径：append 失败且基线重读也失败时仍冒泡 append 拒绝；已提交 append 的刷新失败时正常返回，且下一批次既不被误拒也不重复写入。
 
 ## Alternatives considered
 

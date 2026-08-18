@@ -720,6 +720,48 @@ describe('PersistenceCoordinator session preparations', () => {
     }
   })
 
+  it('a committed append whose baseline refresh fails resolves and degrades the guard instead of wedging', async () => {
+    const ctx = new Context()
+    await ctx.plugin(SessionStore)
+    const backend = new ControlledBackend()
+    let coordinator!: PersistenceCoordinator<never>
+    const fiber = await ctx.plugin(Object.assign((inner: Context) => {
+      coordinator = new PersistenceCoordinator(inner, backend)
+    }, { inject: ['sessions'] }))
+    const m = meta('refresh-failure-degrades')
+    await coordinator.create(m)
+    await coordinator.append(m.id, oneTurnLog())
+    const turn2 = [
+      { type: 'turn/start', seq: 6, time: 9, data: { turn: 2 } },
+      { type: 'turn/end', seq: 7, time: 10, data: { turn: 2, reason: { kind: 'completed' } } },
+    ] as SessionEvent[]
+    const turn3 = [
+      { type: 'turn/start', seq: 8, time: 11, data: { turn: 3 } },
+      { type: 'turn/end', seq: 9, time: 12, data: { turn: 3, reason: { kind: 'completed' } } },
+    ] as SessionEvent[]
+
+    // The pre-append guard read (settledReads + 1) passes; the POST-commit
+    // refresh (settledReads + 2) fails. The append must still resolve — the
+    // batch is durable — and the guard degrades to the in-memory cursor
+    // instead of keeping a stale baseline that would falsely refuse every
+    // later append as a foreign write.
+    const settledReads = backend.revisionReads
+    backend.beforeRevision = attempt =>
+      attempt === settledReads + 2 ? Promise.reject(new Error('revision boom')) : Promise.resolve()
+    try {
+      await coordinator.append(m.id, turn2)
+      // turn3 skips the guard (baseline deleted) and lands; its post-commit
+      // refresh succeeds, re-arming the guard for the next batch.
+      delete backend.beforeRevision
+      await coordinator.append(m.id, turn3)
+      const loaded = await coordinator.load(m.id)
+      expect(loaded.events.map(e => e.seq)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    } finally {
+      await fiber.dispose()
+      await ctx.fiber.dispose()
+    }
+  })
+
   it('writes new events after publishing a preparation with no unpublished suffix', async () => {
     const ctx = new Context()
     await ctx.plugin(SessionStore)

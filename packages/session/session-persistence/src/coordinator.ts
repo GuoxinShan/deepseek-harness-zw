@@ -226,9 +226,11 @@ interface SessionState {
   cursor: number
   /**
    * The durable revision at which `cursor` was last confirmed correct,
-   * refreshed after every successful append. Re-checked before each append so
-   * a log advanced by a writer outside this process rejects loudly instead of
-   * interleaving duplicate seqs into the committed region.
+   * refreshed best-effort after every successful append (a failed refresh
+   * deletes it, degrading the guard to the in-memory cursor). Re-checked
+   * before each append so a log advanced by a writer outside this process
+   * rejects loudly instead of interleaving duplicate seqs into the committed
+   * region.
    */
   revision?: SessionPersistenceRevision
   /**
@@ -758,7 +760,16 @@ export class PersistenceCoordinator<TornMarker = unknown> {
     // cursor as soon as it commits (uniform across backends).
     state.materialized = true
     state.cursor += events.length
-    await this.refreshRevision(id, state)
+    try {
+      await this.refreshRevision(id, state)
+    } catch {
+      // The batch is already durable, so a failed baseline re-read must not
+      // reject the append. Degrade the guard to the in-memory cursor (the same
+      // policy refreshRevision applies to an absent stored identity) instead
+      // of keeping a stale baseline that would falsely refuse every later
+      // append as a foreign write. The next confirmed read re-arms the guard.
+      delete state.revision
+    }
     this.preparations.invalidate(id)
   }
 
