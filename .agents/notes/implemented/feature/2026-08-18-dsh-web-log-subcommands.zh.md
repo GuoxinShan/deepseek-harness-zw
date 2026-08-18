@@ -10,7 +10,7 @@ Status: implemented
 
 ## Decision
 
-CLI 持有两个 fork 本地子命令 `dsh web:log` 与 `dsh web:log:tmp`（`apps/cli/src/web-log.ts`，解析在 `apps/cli/src/args.ts`）。两者通过 `process.execPath` + `process.execArgv` spawn 自身 bin 为 `dsh web …`，因此 wrapper 从不与 harness 共享进程——也不共享崩溃——且 tee 逐字节精确。每次启动 wrapper 在 `$DSH_HOME/logs` 下写一个 `web-<时间戳>.log`（tmp 变体用 `${TMPDIR}/dsh-web-logs`，由操作系统回收；`DSH_WEB_LOG_DIR` 覆盖两者），旁置的 `web-latest.log` 软链始终指向最新一次。wrapper 向子进程转发 SIGINT/SIGTERM，等待子进程的 `close` 而非 `exit`，使尾部输出在日志流结束前排空，并以子进程的退出码退出。旗标解析镜像 `web` 别名，仅去掉免启动的 config dump。用法与查法见 [FORK.md](../../../FORK.md)；面向上游的 `apps/cli/README.md` 保持不动。
+CLI 持有两个 fork 本地子命令 `dsh web:log` 与 `dsh web:log:tmp`（`apps/cli/src/web-log.ts`，解析在 `apps/cli/src/args.ts`）。两者通过 `process.execPath` + `process.execArgv` spawn 自身 bin 为 `dsh web …`，因此 wrapper 从不与 harness 共享进程——也不共享崩溃——且 tee 逐字节精确。每次启动 wrapper 在 `$DSH_HOME/logs` 下写一个 `web-<时间戳>.log`（tmp 变体用 `${TMPDIR}/dsh-web-logs`，由操作系统回收；`DSH_WEB_LOG_DIR` 覆盖两者），旁置的 `web-latest.log` 软链始终指向最新一次。wrapper 向子进程转发 SIGINT/SIGTERM，等待子进程的 `close` 而非 `exit`，使尾部输出在日志流结束前排空，并以子进程的退出码退出。旗标解析镜像 `web` 别名，仅去掉免启动的 config dump。用法与查法见 [FORK.md](../../../../FORK.md)；面向上游的 `apps/cli/README.md` 保持不动。
 
 ## Alternatives considered
 
