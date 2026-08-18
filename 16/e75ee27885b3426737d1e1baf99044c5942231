@@ -1,0 +1,18 @@
+FORK.md
+  h_04d4cd0008e41d 38,44-45,48-49,54,58
+package.json
+  h_04d4cd0008e41d 144
+scripts/web-log.sh
+  h_04d4cd0008e41d 10,13-16,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "16e75ee27885b3426737d1e1baf99044c5942231",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
