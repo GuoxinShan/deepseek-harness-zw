@@ -9,7 +9,10 @@ name: npm release
 on:
   push:
     tags:
-      - 'v*+zw.*'
+      # Wide on purpose: the glob dialect cannot spell '+' after '*' (both
+      # 'v*+zw.*' and 'v*?zw.*' fail to compile), so the Resolve step below
+      # is the gate — a tag without the exact +zw.<N> suffix aborts loudly.
+      - 'v*'
   workflow_dispatch:
     inputs:
       zw:
@@ -28,7 +31,10 @@ jobs:
           fetch-depth: 0
 
       - name: Fetch upstream for the diff base
-        run: git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git && git fetch upstream master --depth=1 || true
+        # Full master history: publish-fork derives the changed set from
+        # `git merge-base HEAD upstream/master`, which needs the connecting
+        # ancestry a depth-1 fetch would not provide.
+        run: git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git && git fetch upstream master || true
 
       - uses: pnpm/action-setup@v4
 
