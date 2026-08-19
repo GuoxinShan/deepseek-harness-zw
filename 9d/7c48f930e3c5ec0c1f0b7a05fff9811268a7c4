@@ -1,0 +1,20 @@
+.github/workflows/npm-release.yml
+  h_04d4cd0008e41d 1-73
+.gitignore
+  h_04d4cd0008e41d 41
+FORK.md
+  h_04d4cd0008e41d 13-23
+scripts/publish-fork.mjs
+  h_04d4cd0008e41d 1-193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "9d7c48f930e3c5ec0c1f0b7a05fff9811268a7c4",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
