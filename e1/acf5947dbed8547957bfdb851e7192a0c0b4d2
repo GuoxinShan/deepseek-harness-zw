@@ -1,0 +1,20 @@
+.agents/notes/implemented/architecture/2026-08-19-retire-models-provider-row-slot.i18n.yaml
+  h_04d4cd0008e41d 1-6
+.agents/notes/implemented/architecture/2026-08-19-retire-models-provider-row-slot.md
+  h_04d4cd0008e41d 1-33
+.agents/notes/implemented/architecture/2026-08-19-retire-models-provider-row-slot.zh.md
+  h_04d4cd0008e41d 1-28
+FORK.md
+  h_04d4cd0008e41d 7,22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "e1acf5947dbed8547957bfdb851e7192a0c0b4d2",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
