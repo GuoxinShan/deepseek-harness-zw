@@ -618,6 +618,21 @@ export interface ApiProxyDefaults {
    * and undoing it because storage failed would be the worse outcome.
    */
   saveDefaultModelSelection?: (selection: ModelSelection) => Promise<void>
+  /**
+   * Recall the reasoning effort the user last explicitly chose on one
+   * provider/model route. Either absent (no memory), or a closure reading the
+   * live store; the gateway plugin always passes one. A recalled value is
+   * validated against the model's live capability before it is used.
+   */
+  recallModelEffort?: (provider: string, model: string) => string | undefined
+  /**
+   * Record — or clear, when `effort` is undefined — the remembered effort for
+   * one provider/model route. Either absent, or a closure that may itself
+   * decline; a rejection is reported and swallowed: the switch already applies
+   * to its own session, and undoing it because memory storage failed would be
+   * the worse outcome.
+   */
+  rememberModelEffort?: (provider: string, model: string, effort: string | undefined) => Promise<void>
   /** Default project directory for new sessions whose create request carries no cwd. */
   cwd: string
   /** Native open-with-default-application; injectable for carrier tests. */
@@ -2224,13 +2239,50 @@ export function createApiProxy(ctx: Context, defaults: ApiProxyDefaults): ApiPro
         const found = await agentFor(sessionId)
         if ('error' in found) return err(request, found.error)
         return serializeImageAdmission(found.agent, async () => {
+          /**
+           * Persist the effort memory for this route, reporting a storage
+           * failure without failing the switch it accompanies.
+           * @param effort - the explicitly chosen effort, or undefined to clear.
+           */
+          const persistEffortMemory = async (effort: string | undefined): Promise<void> => {
+            if (defaults.rememberModelEffort === undefined) return
+            try {
+              await defaults.rememberModelEffort(provider, model, effort)
+            } catch (error: unknown) {
+              ctx.logger.warn(
+                `api-proxy: the model switch applies to this session but its effort memory was not updated: ${String(error)}`,
+              )
+            }
+          }
           try {
+            // An absent effort on a DIFFERENT route is a bare model pick:
+            // restore the effort the user last explicitly chose there before
+            // the adapter default materializes. On the SAME route an absent
+            // effort is the explicit provider-default gesture (the effort
+            // pane's Default row); the post-success write below clears it.
+            const current = selectionFor(found.agent).current
+            const sameRoute = current.provider === provider && current.model === model
+            let requested: string | undefined = reasoningEffort
+            if (requested === undefined && !sameRoute) {
+              const remembered = defaults.recallModelEffort?.(provider, model)
+              if (remembered !== undefined) {
+                // Memory may outlive the capability it named: validate against
+                // the live offer so a stale entry falls back to the adapter
+                // default instead of failing the switch.
+                const info = await ctx.llm.resolveModelInfo(provider, model)
+                if (info.reasoning?.efforts.some(effort => effort.id === remembered)) {
+                  requested = remembered
+                } else {
+                  await persistEffortMemory(undefined)
+                }
+              }
+            }
             const resolved = await ctx.llm.resolveCallConfig({
               provider,
               model,
-              ...reasoningEffort === undefined
+              ...requested === undefined
                 ? {}
-                : { reasoningEffort: ReasoningEffortId(reasoningEffort) },
+                : { reasoningEffort: ReasoningEffortId(requested) },
             })
             const pendingImage = [...found.agent.inbox.nextTurn, ...found.agent.inbox.nextStep]
               .some(message => contentHasImage(message.content))
@@ -2258,6 +2310,15 @@ export function createApiProxy(ctx: Context, defaults: ApiProxyDefaults): ApiPro
               ctx.logger.warn(
                 `api-proxy: the model switch applies to this session but was not saved as the default: ${String(error)}`,
               )
+            }
+            // Memory records only explicit effort statements: a wire-stated
+            // effort (the effort pane, an asserted selection) is remembered,
+            // and a same-route pick without one clears the route's entry. A
+            // consulted bare pick never writes.
+            if (reasoningEffort !== undefined) {
+              await persistEffortMemory(resolved.reasoningEffort)
+            } else if (sameRoute) {
+              await persistEffortMemory(undefined)
             }
             return ok(request, { selected: { ...selected } })
           } catch (error: unknown) {

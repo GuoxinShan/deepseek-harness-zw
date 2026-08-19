@@ -83,8 +83,8 @@ export interface TypeApiEntry {
 export const SERVICE_API: readonly ServiceApiEntry[] = [
   {
     key: 'agentDefaultModel',
-    summary: 'Owns the default model selection independently of any Host or transport.',
-    description: 'Owns the default model selection independently of any Host or transport. The composition entry remains usable without a settings provider; when one is mounted, its user layer is read live.',
+    summary: 'Owns the default model selection and the per-route reasoning-effort memory, each independently of any Host or transport.',
+    description: 'Owns the default model selection and the per-route reasoning-effort memory, each independently of any Host or transport. The composition entries remain usable without a settings provider; when one is mounted, the user layer of each namespace is read live.',
     methods: [
       {
         signature: 'currentSelection(): ModelSelection',
@@ -96,6 +96,18 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
         signature: 'async saveSelection(next: ModelSelection): Promise<void>',
         description: 'Save the complete default model selection. A deployment without a settings provider keeps its composition entry.',
         parameters: [{ name: 'next', description: 'resolved selection accepted by an entry point.' }],
+        returns: 'fulfillment after the optional settings write settles.',
+      },
+      {
+        signature: 'recallEffort(provider: string, model: string): ReasoningEffortId | undefined',
+        description: 'Recall the effort last explicitly chosen on one provider/model route. A hand-edited document may carry duplicate entries; the last match wins, matching the append order rememberEffort maintains.',
+        parameters: [{ name: 'provider', description: 'registered provider route.' }, { name: 'model', description: 'provider-owned model id.' }],
+        returns: 'the remembered effort, or undefined when the route has none.',
+      },
+      {
+        signature: 'async rememberEffort(provider: string, model: string, effort: ReasoningEffortId | undefined): Promise<void>',
+        description: 'Record the remembered effort for one route, or clear it when `effort` is undefined. A deployment without a settings provider keeps its composition entry, so the call fulfills with no stored effect.',
+        parameters: [{ name: 'provider', description: 'registered provider route.' }, { name: 'model', description: 'provider-owned model id.' }, { name: 'effort', description: 'the explicitly chosen effort, or undefined to clear.' }],
         returns: 'fulfillment after the optional settings write settles.',
       },
     ],
@@ -1041,7 +1053,7 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
       },
       {
         signature: 'abstract append(id: SessionId, events: readonly SessionEvent[]): Promise<void>',
-        description: 'Durably persist a batch of events. Honors the append-only and contiguous- seq contracts: the first event\'s `seq` MUST equal the stored next-seq (after `load` has durably closed any interrupted turn). Rejects non-JSON- serializable `event.data` with an error naming the offending event type.',
+        description: 'Durably persist a batch of events. Honors the append-only and contiguous- seq contracts: the first event\'s `seq` MUST equal the stored next-seq (after `load` has durably closed any interrupted turn). Rejects non-JSON- serializable `event.data` with an error naming the offending event type. Coordinator-backed implementations also reject when the durable log advanced since this process last observed it — another harness process sharing the sessions root — rather than interleave duplicate seqs.',
         parameters: [{ name: 'id', description: 'the session the batch belongs to.' }, { name: 'events', description: 'the contiguous batch to persist, in seq order.' }],
       },
       {

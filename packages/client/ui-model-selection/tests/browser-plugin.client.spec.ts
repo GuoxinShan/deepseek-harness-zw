@@ -58,6 +58,7 @@ async function bench() {
   const ctx = new Context()
   let current: ModelSelection = { provider: 'deepseek-official', model: 'deepseek-v4-flash' }
   const calls = { models: 0, select: 0 }
+  let lastSelect: { provider: string; model: string; reasoningEffort?: string } | undefined
   ctx.provide('connection', { api: { sessions: {
     models: () => {
       calls.models += 1
@@ -67,6 +68,13 @@ async function bench() {
     },
     selectModel: (payload: { provider: string; model: string; reasoningEffort?: string }) => {
       calls.select += 1
+      // The wire payload carries sessionId too; the assertion face keeps the
+      // three selection fields the tests speak about.
+      lastSelect = {
+        provider: payload.provider,
+        model: payload.model,
+        ...payload.reasoningEffort === undefined ? {} : { reasoningEffort: payload.reasoningEffort },
+      }
       current = {
         provider: payload.provider,
         model: payload.model,
@@ -131,6 +139,7 @@ async function bench() {
     address: (id: SessionId) => { addressed.add(id) },
     setRoutable: (next: boolean) => { routable = next },
     blockOf: (key: string) => blocks.get(sid(key)),
+    lastSelect: () => lastSelect,
   }
 }
 
@@ -187,10 +196,25 @@ describe('ui-model-selection dual entry', () => {
     const options = await b.contribution().ui.options(projection('s1'), new AbortController().signal)
     const pro = options.find((o: SelectOption) => o.label === 'DeepSeek-V4-Pro')!
     await b.contribution().ui.onSelect(pro, projection('s1'))
+    // A different-route pick states no effort: the Host consults the per-route
+    // effort memory and materializes the adapter default, so the wire payload
+    // carries provider and model alone.
+    expect(b.lastSelect()).toEqual({ provider: 'deepseek-official', model: 'deepseek-v4-pro' })
     expect(seatFace.directory.getSnapshot().current).toEqual({
       provider: 'deepseek-official',
       model: 'deepseek-v4-pro',
-      reasoningEffort: 'high',
+    })
+  })
+
+  it('a same-route popup pick re-asserts the held effort on the wire', async () => {
+    const b = await bench()
+    b.mint('s1')
+    b.setHostCurrent({ provider: 'deepseek-official', model: 'deepseek-v4-pro', reasoningEffort: 'max' })
+    const options = await b.contribution().ui.options(projection('s1'), new AbortController().signal)
+    const pro = options.find((o: SelectOption) => o.label === 'DeepSeek-V4-Pro')!
+    await b.contribution().ui.onSelect(pro, projection('s1'))
+    expect(b.lastSelect()).toEqual({
+      provider: 'deepseek-official', model: 'deepseek-v4-pro', reasoningEffort: 'max',
     })
   })
 

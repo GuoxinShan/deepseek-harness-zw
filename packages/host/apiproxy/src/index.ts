@@ -15,6 +15,7 @@
 import { Context, Service } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
 import type {} from '@deepseek-ai/dsh-agent-default-model'
+import { ReasoningEffortId } from '@deepseek-ai/dsh-llm'
 import type { ApiProxy } from './api/index.ts'
 import { createApiProxy, DEFAULT_COLD_BLANK_PROBE_MAX_BYTES } from './api-proxy.ts'
 import {
@@ -98,6 +99,15 @@ export class ApiProxyService extends Service implements ApiProxy {
     const api = createApiProxy(ctx, {
       defaultModelSelection: () => ctx.agentDefaultModel.currentSelection(),
       saveDefaultModelSelection: selection => ctx.agentDefaultModel.saveSelection(selection),
+      recallModelEffort: (provider, model) => {
+        const effort = ctx.agentDefaultModel.recallEffort(provider, model)
+        return effort === undefined ? undefined : String(effort)
+      },
+      rememberModelEffort: (provider, model, effort) => ctx.agentDefaultModel.rememberEffort(
+        provider,
+        model,
+        effort === undefined ? undefined : ReasoningEffortId(effort),
+      ),
       cwd: process.cwd(),
       ...config.nativeOpen === undefined ? {} : { canOpenPath: () => config.nativeOpen as boolean },
       ...(config.sessionExportCompressionLevel === undefined

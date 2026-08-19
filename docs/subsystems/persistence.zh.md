@@ -290,6 +290,9 @@ abstract create(meta: SessionHeader): Promise<void>
  * seq contracts: the first event's `seq` MUST equal the stored next-seq
  * (after `load` has durably closed any interrupted turn). Rejects non-JSON-
  * serializable `event.data` with an error naming the offending event type.
+ * Coordinator-backed implementations also reject when the durable log
+ * advanced since this process last observed it — another harness process
+ * sharing the sessions root — rather than interleave duplicate seqs.
  * @param id - the session the batch belongs to.
  * @param events - the contiguous batch to persist, in seq order.
  */

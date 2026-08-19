@@ -80,9 +80,14 @@ function selectionOf(state: ModelDirectoryState, id: string): ModelSelection | u
     for (const model of group.models) {
       if (rowId(group.id, model.id) !== id) continue
       const sameRoute = state.current?.provider === group.id && state.current.model === model.id
+      // A different-route pick states no effort: the Host consults the
+      // per-route effort memory and materializes the adapter default, so a
+      // client-side default here would mask a remembered choice. A same-route
+      // pick re-asserts the held effort (or the model default when none is
+      // held), which the Host records as that route's explicit choice.
       const reasoningEffort = sameRoute
         ? state.current?.reasoningEffort ?? model.reasoning?.defaultEffort
-        : model.reasoning?.defaultEffort
+        : undefined
       return {
         provider: group.id,
         model: model.id,

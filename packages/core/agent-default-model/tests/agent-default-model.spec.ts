@@ -2,7 +2,9 @@
 
 import { describe, expect, it } from 'vitest'
 import { Context } from '@deepseek-ai/cordis'
-import AgentDefaultModelConfig, { AGENT_DEFAULT_MODEL_SETTINGS_NAMESPACE } from '../src/index.ts'
+import AgentDefaultModelConfig, {
+  AGENT_DEFAULT_MODEL_SETTINGS_NAMESPACE, AGENT_MODEL_EFFORTS_SETTINGS_NAMESPACE,
+} from '../src/index.ts'
 import { SettingsProvider } from '@deepseek-ai/dsh-settings'
 import type { SettingsNamespace } from '@deepseek-ai/dsh-settings'
 import { ReasoningEffortId } from '@deepseek-ai/dsh-llm'
@@ -93,6 +95,64 @@ describe('AgentDefaultModelConfig', () => {
     await ctx.plugin(AgentDefaultModelConfig, { provider: 'p', model: 'm' })
     await ctx.agentDefaultModel.saveSelection({ provider: 'other', model: 'other' })
     expect(ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'p', model: 'm' })
+    await ctx.fiber.dispose()
+  })
+})
+
+describe('per-route effort memory', () => {
+  it('remembers and recalls an explicit effort per provider/model route', async () => {
+    const bench = await boot()
+    expect(bench.defaultModel.recallEffort('deepseek-official', 'deepseek-v4-pro')).toBeUndefined()
+    await bench.defaultModel.rememberEffort('deepseek-official', 'deepseek-v4-pro', ReasoningEffortId('max'))
+    await bench.defaultModel.rememberEffort('acme-gateway', 'acme-large', ReasoningEffortId('high'))
+    expect(bench.defaultModel.recallEffort('deepseek-official', 'deepseek-v4-pro')).toBe('max')
+    expect(bench.defaultModel.recallEffort('acme-gateway', 'acme-large')).toBe('high')
+    await bench.ctx.fiber.dispose()
+  })
+
+  it('clears one route without touching the others', async () => {
+    const bench = await boot()
+    await bench.defaultModel.rememberEffort('deepseek-official', 'deepseek-v4-pro', ReasoningEffortId('max'))
+    await bench.defaultModel.rememberEffort('acme-gateway', 'acme-large', ReasoningEffortId('high'))
+    await bench.defaultModel.rememberEffort('deepseek-official', 'deepseek-v4-pro', undefined)
+    expect(bench.defaultModel.recallEffort('deepseek-official', 'deepseek-v4-pro')).toBeUndefined()
+    expect(bench.defaultModel.recallEffort('acme-gateway', 'acme-large')).toBe('high')
+    await bench.ctx.fiber.dispose()
+  })
+
+  it('keeps at most one entry per route and lets a hand-written duplicate last-match win', async () => {
+    const bench = await boot()
+    await bench.defaultModel.rememberEffort('deepseek-official', 'deepseek-v4-pro', ReasoningEffortId('max'))
+    await bench.defaultModel.rememberEffort('deepseek-official', 'deepseek-v4-pro', ReasoningEffortId('high'))
+    const stored = bench.settingsFiber.ctx.settings.get(AGENT_MODEL_EFFORTS_SETTINGS_NAMESPACE) as {
+      entries: { provider: string; model: string; effort: string }[]
+    }
+    expect(stored.entries).toEqual([
+      { provider: 'deepseek-official', model: 'deepseek-v4-pro', effort: 'high' },
+    ])
+    await bench.settingsFiber.ctx.settings.replace(AGENT_MODEL_EFFORTS_SETTINGS_NAMESPACE, {
+      entries: [
+        { provider: 'deepseek-official', model: 'deepseek-v4-pro', effort: 'off' },
+        { provider: 'deepseek-official', model: 'deepseek-v4-pro', effort: 'max' },
+      ],
+    })
+    expect(bench.defaultModel.recallEffort('deepseek-official', 'deepseek-v4-pro')).toBe('max')
+    await bench.ctx.fiber.dispose()
+  })
+
+  it('falls back to no memory when the settings provider detaches', async () => {
+    const bench = await boot()
+    await bench.defaultModel.rememberEffort('deepseek-official', 'deepseek-v4-pro', ReasoningEffortId('max'))
+    await bench.settingsFiber.dispose()
+    expect(bench.defaultModel.recallEffort('deepseek-official', 'deepseek-v4-pro')).toBeUndefined()
+    await bench.ctx.fiber.dispose()
+  })
+
+  it('keeps no memory when no settings provider is mounted', async () => {
+    const ctx = new Context()
+    await ctx.plugin(AgentDefaultModelConfig, { provider: 'p', model: 'm' })
+    await ctx.agentDefaultModel.rememberEffort('p', 'm', ReasoningEffortId('high'))
+    expect(ctx.agentDefaultModel.recallEffort('p', 'm')).toBeUndefined()
     await ctx.fiber.dispose()
   })
 })
