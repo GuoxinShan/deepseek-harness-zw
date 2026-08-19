@@ -1,0 +1,14 @@
+packages/host/frontend-static/src/index.ts
+  h_04d4cd0008e41d 71-75,84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "9728ae2dbabdb77add7442a281d674fefa6fb669",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
