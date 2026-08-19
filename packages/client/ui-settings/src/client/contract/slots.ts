@@ -86,41 +86,12 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
      * layer and every registrant already depends on it for `ctx.settingsScope`.
      */
     'settings.general.item': { kind: 'list'; scope: 'root'; owner: SettingsGeneralItemOwnerProps }
-    /**
-     * One accessory contribution inside a configured provider's row on the
-     * Models page, rendered between the row identity (name, tag, credential
-     * dot) and the row actions (edit, remove). Ordered list contributions
-     * stack horizontally; an empty slot leaves the row exactly as composed.
-     * Options: `id` (contribution key), `order` (position). The owner passes
-     * the row's current identity — `provider` is the stable route id an edit
-     * cannot change, `displayName` the renamable display name — so a
-     * contribution keys any lookup or fetch on the route id and never sees
-     * write affordances. A provider rendered as its open setup card (the
-     * first-run posture) draws no row and therefore no contribution.
-     * Declared at runtime by ui-settings-models' Models entry; the type lives
-     * here so any feature can contribute without depending on the Models
-     * plugin, the `settings.general.item` precedent one level deeper.
-     */
-    'settings.models.provider': { kind: 'list'; scope: 'root'; owner: SettingsModelsProviderOwnerProps }
   }
 }
 /** Owner share of a General preference row (the section supplies nothing). */
 export interface SettingsGeneralItemOwnerProps {
   /** Marker field: item owner props are intentionally empty. */
   children?: never
-}
-
-/**
- * Owner share of one Models provider-row accessory: the row's current
- * identity, nothing else. The route id is stable across edits and is the key
- * a contribution fetches or caches by; the display name is the renamable
- * label an edit may change underneath a mounted contribution.
- */
-export interface SettingsModelsProviderOwnerProps {
-  /** Stable provider route id (the settings key; edits cannot change it). */
-  provider: string
-  /** Human-facing provider display name as the row currently shows it. */
-  displayName: string
 }
 
 /** Owner share of a Plugins tab (the section supplies nothing). */

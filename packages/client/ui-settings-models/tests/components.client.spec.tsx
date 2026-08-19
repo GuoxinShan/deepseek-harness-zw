@@ -26,15 +26,6 @@ const openaiCopy = (template: string): string => providerCopy(template, OPENAI_T
 const DEEPSEEK_TARGET = { provider: 'deepseek-official', displayName: 'DeepSeek' }
 const deepSeekCopy = (template: string): string => providerCopy(template, DEEPSEEK_TARGET)
 
-/**
- * Stand-in for the framework renderSlot seat: one marker node per configured
- * provider row, naming the owner identity it received.
- */
-const renderSlot = ((key: string, owner: { provider: string; displayName: string }) => {
-  if (key !== 'settings.models.provider') return null
-  return <span data-testid="row-accessory">{`${owner.provider}:${owner.displayName}`}</span>
-}) as ModelsSectionProps['renderSlot']
-
 /** Open one row's capacity disclosure (1-based, as the labels read). */
 function expandRow(position: number): void {
   fireEvent.click(screen.getByLabelText(`${en.modelAdvanced} ${String(position)}`))
@@ -202,7 +193,7 @@ async function mountFace(scripted: ReturnType<typeof scriptedFace>) {
     api: face as never,
     t,
   }
-  const view = render(<ModelsSection {...injected} renderSlot={renderSlot} />)
+  const view = render(<ModelsSection {...injected} />)
   return { view, face, update, replace, mutate, set, unset, controller }
 }
 
@@ -281,7 +272,6 @@ describe('ModelsSection', () => {
       useSnapshot={bindSnapshotSelector(controller.store)}
       api={face as never}
       t={t}
-      renderSlot={renderSlot}
     />)
 
     const missing = screen.getByRole('img', { name: en.credentialMissing })
@@ -290,34 +280,6 @@ describe('ModelsSection', () => {
     expect(missing.closest('li')?.textContent).toContain('openai')
     expect(screen.queryByRole('img', { name: en.credentialConfigured })).toBeNull()
     expect(screen.getByText('zombie').closest('li')?.querySelector('[role="img"]')).toBeNull()
-  })
-
-  it('renders one accessory seat per configured row, between the identity and the actions', async () => {
-    await mountSection()
-    const seats = screen.getAllByTestId('row-accessory')
-    // Directory order over the configured rows: deepseek-official, openai,
-    // and zombie (its empty stored profile resolves).
-    expect(seats.map(seat => seat.textContent)).toEqual([
-      'deepseek-official:DeepSeek',
-      'openai:openai',
-      'zombie:zombie',
-    ])
-    const seat = seats[0]!
-    const rowHead = seat.closest('div')
-    const identity = screen.getByText('DeepSeek')
-    const edit = screen.getByRole('button', { name: deepSeekCopy(en.editProvider) })
-    expect(rowHead?.contains(identity)).toBe(true)
-    expect(rowHead?.contains(edit)).toBe(true)
-    expect(seat.compareDocumentPosition(identity) & Node.DOCUMENT_POSITION_PRECEDING).toBeTruthy()
-    expect(seat.compareDocumentPosition(edit) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
-  })
-
-  it('renders no accessory seat for a provider shown as its setup card', async () => {
-    await mountFirstRun()
-    // DeepSeek owns the first-run setup card instead of a row, so it draws
-    // no seat; openai and zombie keep theirs.
-    expect(screen.getAllByTestId('row-accessory').map(seat => seat.textContent))
-      .toEqual(['openai:openai', 'zombie:zombie'])
   })
 
   it('turns the setup card into a row once the credential reports configured', async () => {
@@ -333,7 +295,6 @@ describe('ModelsSection', () => {
       useSnapshot={bindSnapshotSelector(controller.store)}
       api={face as never}
       t={t}
-      renderSlot={renderSlot}
     />)
     // Now a row with an Edit button, not an open card.
     expect(screen.getAllByText(en.edit).length).toBeGreaterThan(1)
@@ -1053,7 +1014,6 @@ describe('ModelsSection', () => {
         useSnapshot={bindSnapshotSelector(controller.store)}
         api={face as never}
         t={t}
-        renderSlot={renderSlot}
       />)
       const key = await screen.findByLabelText<HTMLInputElement>(en.keyInput)
       expect(key.placeholder).toBe(en.keyPlaceholder)
@@ -1191,7 +1151,6 @@ describe('ModelsSection', () => {
       useSnapshot={bindSnapshotSelector(controller.store)}
       api={face.face as never}
       t={t}
-      renderSlot={renderSlot}
     />)
     expect(screen.getByText(/directory down/)).toBeTruthy()
     fireEvent.click(screen.getByText(en.retry))
@@ -1213,7 +1172,6 @@ describe('ModelsSection', () => {
       useSnapshot={bindSnapshotSelector(controller.store)}
       api={face as never}
       t={t}
-      renderSlot={renderSlot}
     />)
     expect(screen.getByText(en.readOnly)).toBeTruthy()
     expect(screen.getAllByText<HTMLButtonElement>(en.remove).every(button => button.disabled)).toBe(true)
@@ -1274,7 +1232,6 @@ describe('ModelsSection', () => {
       useSnapshot={bindSnapshotSelector(controller.store)}
       api={face as never}
       t={t}
-      renderSlot={renderSlot}
     />)
     await screen.findByText('DeepSeek')
   })

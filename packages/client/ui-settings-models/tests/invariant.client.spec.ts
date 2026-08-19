@@ -3,7 +3,6 @@ import { Context } from '@deepseek-ai/cordis'
 import * as ModelsInvariant from '@deepseek-ai/dsh-client-ui-settings-models/invariant'
 import InvariantRegistry from '@deepseek-ai/dsh-invariants'
 import { ModelsSection } from '../src/client/ModelsSection.tsx'
-import type { ModelsSectionProps } from '../src/client/ModelsSection.tsx'
 
 describe('invariant companion', () => {
   it('registers under the package name with an empty installer', async () => {
@@ -19,7 +18,6 @@ describe('invariant companion', () => {
   })
 
   it('renders null until the shell injects the section dependencies', () => {
-    // renderSlot stays unexercised: the inject guard returns before it.
-    expect(ModelsSection({} as ModelsSectionProps)).toBeNull()
+    expect(ModelsSection({})).toBeNull()
   })
 })

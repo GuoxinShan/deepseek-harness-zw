@@ -2,24 +2,20 @@
  * Models settings section: the provider rows joined from the configurable
  * directory, settings namespaces, and credential states, with one editor
  * card at a time. Rows expose only confirmed API-key state through accessible
- * solid configured or missing dots. Each configured row renders the
- * `settings.models.provider` accessory seat between its identity and its
- * actions — a declared-but-empty list leaves the row exactly as composed. A
- * whole-section provider without a configured key renders as its open setup
- * card instead of a row, but only in the first-run posture — no provider on
- * the page can serve requests yet — and only until the user closes that
- * card; the add flow is a card carrying the dormant-provider select. Each
- * card kind owns its own open state, so closing one never discards a draft
- * in another. Every mutation writes through the wire, while a provider
- * removal first requires confirmation; the page re-renders from pushed
- * invalidations or the post-apply reload.
+ * solid configured or missing dots. A whole-section provider without a
+ * configured key renders as its open setup card instead of a row, but only in
+ * the first-run posture — no provider on the page can serve requests yet — and
+ * only until the user closes that card; the add flow is a card carrying the
+ * dormant-provider select. Each card kind owns its own open state, so closing
+ * one never discards a draft in another. Every mutation writes through the
+ * wire, while a provider removal first requires confirmation; the page
+ * re-renders from pushed invalidations or the post-apply reload.
  */
 
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import type { IApiClient } from '@deepseek-ai/dsh-api-remotes/client'
 import { Button, IconPlusOutline16, Modal } from '@deepseek-ai/dsh-client-ui-primitives'
-import type { PropsRenderSlots } from '@deepseek-ai/dsh-client-ui-slots'
 import type { SnapshotSelectorHook } from '@deepseek-ai/dsh-client-web-react'
 import { CustomProviderCard } from './CustomProviderCard.tsx'
 import { deriveKeyRef, messageOf, protocolChoices, providerUsable } from './store.ts'
@@ -42,10 +38,9 @@ export interface ModelsSectionInjected {
 
 /**
  * Props delivered by the slot outlet: the inject face spread flat (the
- * renderer erases the share boundary at the render call) plus the render
- * share for the row-accessory children this entry declares.
+ * renderer erases the share boundary at the render call).
  */
-export type ModelsSectionProps = Partial<ModelsSectionInjected> & PropsRenderSlots<'settings.models.provider'>
+export type ModelsSectionProps = Partial<ModelsSectionInjected>
 
 /** Provider identity shared by row actions and confirmation copy. */
 export interface ProviderIdentity {
@@ -170,18 +165,16 @@ export function providerCopy(template: string, target: ProviderIdentity): string
 
 /**
  * Render the Models section content column.
- * @param props - slot-delivered injected dependencies and the row-accessory
- * render share.
+ * @param props - slot-delivered injected dependencies.
  * @returns the section, or null while the shell has not injected yet.
  */
-export function ModelsSection({ controller, useSnapshot, api, t, renderSlot }: ModelsSectionProps): ReactNode {
+export function ModelsSection(props: ModelsSectionProps): ReactNode {
+  const { controller, useSnapshot, api, t } = props
   if (controller === undefined || useSnapshot === undefined || api === undefined || t === undefined) return null
-  return <Loaded injected={{ controller, useSnapshot, api, t }} renderSlot={renderSlot} />
+  return <Loaded injected={{ controller, useSnapshot, api, t }} />
 }
 
-function Loaded(
-  { injected, renderSlot }: { injected: ModelsSectionInjected } & PropsRenderSlots<'settings.models.provider'>,
-): ReactNode {
+function Loaded({ injected }: { injected: ModelsSectionInjected }): ReactNode {
   const { controller, api, t } = injected
   const state = injected.useSnapshot(snapshot => snapshot)
   const [editing, setEditing] = useState<EditorTarget | undefined>(undefined)
@@ -348,13 +341,6 @@ function Loaded(
                       )
                       : null}
                 </span>
-                {/* The row's extension seat: an empty contribution list leaves
-                    the row exactly as composed, so the plugin that fills it
-                    owns everything about its presence. */}
-                {renderSlot('settings.models.provider', {
-                  provider: row.entry.provider,
-                  displayName: row.entry.displayName,
-                })}
                 <span className={styles['rowActions']}>
                   <button
                     type="button"
