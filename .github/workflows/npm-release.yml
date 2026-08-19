@@ -66,7 +66,12 @@ jobs:
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: node scripts/publish-fork.mjs "${{ steps.zw.outputs.n }}"
+        run: |
+          # npm needs the registry binding in .npmrc to pick NODE_AUTH_TOKEN
+          # up (the env var alone is not consulted for a bare `npm publish`
+          # from a package cwd).
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
+          node scripts/publish-fork.mjs "${{ steps.zw.outputs.n }}"
 
       - name: Release notes
         uses: softprops/action-gh-release@v2
