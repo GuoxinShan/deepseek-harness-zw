@@ -1,0 +1,73 @@
+# Fork npm release: publish the fork-modified packages under the fork scope
+# when a zw tag is pushed (v<upstream-baseline>+zw.<N>). Policy: FORK.md
+# 「发布纪律」— every source package diverging from upstream must reach
+# consumers as a published npm version; downstream repos consume npm only.
+#
+# Local mirror of this flow: `node scripts/publish-fork.mjs <N> [--dry-run]`.
+name: npm release
+
+on:
+  push:
+    tags:
+      - 'v*+zw.*'
+  workflow_dispatch:
+    inputs:
+      zw:
+        description: 'zw patch number (N in v<baseline>+zw.N)'
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream for the diff base
+        run: git remote add upstream https://github.com/deepseek-ai/deepseek-harness.git && git fetch upstream master --depth=1 || true
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Resolve zw number
+        id: zw
+        run: |
+          if [ -n "${{ inputs.zw }}" ]; then
+            echo "n=${{ inputs.zw }}" >> "$GITHUB_OUTPUT"
+          else
+            tag="${GITHUB_REF_NAME}"
+            n="${tag##*+zw.}"
+            case "$n" in
+              ''|*[!0-9]*) echo "tag $tag carries no zw number"; exit 1 ;;
+            esac
+            echo "n=$n" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: node scripts/publish-fork.mjs "${{ steps.zw.outputs.n }}"
+
+      - name: Release notes
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          make_latest: false
+          body: |
+            npm release of the fork-modified packages (`@crazx/*` scope), version `<upstream>.zw.${{ steps.zw.outputs.n }}`.
+
+            Published packages are listed by the workflow log above; each tarball is the staged `pnpm pack` artifact with the fork scope, zw version, cross-references rewritten, and the repository pointing at this fork.
