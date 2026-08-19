@@ -1,0 +1,14 @@
+.github/workflows/npm-release.yml
+  h_04d4cd0008e41d 69-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "4c7008561cf7d5d82dd7a5ee4bf049aa6caf8836",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
