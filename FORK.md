@@ -4,7 +4,7 @@
 
 ## Fork 的存在目的
 
-处理上游没有 slot、也没有其他扩展点可以覆盖的场景。判断顺序：优先用动态 Cordis 插件或既有 slot 解决；确认没有任何扩展点可用时，才修改仓库代码。已经引入的两个先例：`mcp-client/status` 事件（`packages/mcp/mcp-client`）与 `settings.models.provider` 行级插槽（`packages/client/ui-settings-models`）。
+处理上游没有 slot、也没有其他扩展点可以覆盖的场景。判断顺序：优先用动态 Cordis 插件或既有 slot 解决；确认没有任何扩展点可用时，才修改仓库代码。在册先例：`mcp-client/status` 事件（`packages/mcp/mcp-client`）。已退役先例：`settings.models.provider` 行级插槽曾为此目的引入，后因 dsh-provider-balance 插件改用纯 DOM 注入路径（宿主零改动）而于 ffffaf39 revert —— 插件侧 DOM 注入能覆盖行级 UI 需求时，优先插件侧，不给 fork 添源码负担。
 
 ## 修改三原则
 
@@ -19,7 +19,7 @@
 前缀按改动性质二选一：
 
 - `fix/`：仅用于修复真实缺陷——harness 自身的行为是错的。先例：`fix/wkwebview-bundle-content-length`（WKWebView 丢 chunked 响应，bundle 加载失败）。
-- `feat/`：其余全部，尤其是为开发我们的插件而被迫改源码的能力扩展（加 slot、事件、子命令）。先例：`feat/mcp-client-status-event`、`feat/models-provider-row-slot`。
+- `feat/`：其余全部，尤其是为开发我们的插件而被迫改源码的能力扩展（加 slot、事件、子命令）。先例：`feat/mcp-client-status-event`；已退役：`feat/models-provider-row-slot`（插件改走 DOM 注入后 revert）。
 
 判断：行为坏了才是 `fix/`；让插件做到以前做不到的事，一律 `feat/`。名字描述能力而非实现形态，以免方案演进后过时（`feat/web-log-script` 最终交付的是 CLI 子命令而非 script）。
 
