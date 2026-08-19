@@ -184,8 +184,19 @@ async function main() {
       console.log(`  [dry] ${renamed}@${versionOf.get(name)} -> ${basename(tarball)}`)
       continue
     }
+    // Idempotent: a rerun after a partial publish skips what the registry
+    // already holds (npm refuses republishing a version — that E403 aborts
+    // the whole run otherwise).
+    const version = versionOf.get(name)
+    try {
+      run('npm', ['view', `${renamed}@${version}`, 'version'], { stdio: 'pipe' })
+      console.log(`  skip ${renamed}@${version} (already published)`)
+      continue
+    } catch {
+      // Not on the registry yet — publish below.
+    }
     run('npm', ['publish', tarball, '--access', 'public', '--tag', distTag])
-    console.log(`  published ${renamed}@${versionOf.get(name)}`)
+    console.log(`  published ${renamed}@${version}`)
   }
   if (!dryRun) rmSync(staging, { recursive: true, force: true })
 }
