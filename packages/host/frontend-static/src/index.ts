@@ -68,7 +68,11 @@ export async function serveStatic(
   }
   const serveIndex = async (): Promise<void> => {
     const body = await renderIndex()
-    res.writeHead(200, { 'content-type': MIME['.html'] })
+    // content-length is explicit: WKWebView randomly stalls on loopback
+    // chunked (length-less) responses — the same hazard the bundle route in
+    // client-modules already guards against. The index carries the boot
+    // manifest, so a stalled index is a blank window.
+    res.writeHead(200, { 'content-type': MIME['.html'], 'content-length': Buffer.byteLength(body) })
     res.end(body)
   }
   if (target === distRoot || target === distIndex) {
@@ -77,7 +81,7 @@ export async function serveStatic(
   }
   try {
     const body = await readFile(target)
-    res.writeHead(200, { 'content-type': MIME[extname(target)] ?? 'application/octet-stream' })
+    res.writeHead(200, { 'content-type': MIME[extname(target)] ?? 'application/octet-stream', 'content-length': body.length })
     res.end(body)
   } catch {
     // Miss (ENOENT/EISDIR) falls back to index.html with 200 (SPA routing).
