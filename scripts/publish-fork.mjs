@@ -142,13 +142,25 @@ async function main() {
   }
 
   // Upstream base version: every fork package carries it in package.json
-  // today (one workspace, one rc line). Fail loud on drift.
+  // today (one workspace, one rc line). The zw tag spells the baseline
+  // (v<base>+zw.<N>) and the workflow passes it as --base; without it, fall
+  // back to requiring one common base across the set. Fail loud on drift.
+  const baseIdx = args.indexOf('--base')
+  const expectedBase = baseIdx !== -1 ? args[baseIdx + 1] : undefined
   const versionOf = new Map()
+  let commonBase
   for (const name of selected) {
     const manifest = JSON.parse(readFileSync(resolve(all.get(name), 'package.json'), 'utf8'))
     const base = manifest.version
-    if (!base.endsWith('-rc.7')) {
-      console.error(`publish-fork: unexpected base version for ${name}: ${base} (pin the base explicitly when the fork spans more than one upstream line)`)
+    if (expectedBase !== undefined) {
+      if (base !== expectedBase) {
+        console.error(`publish-fork: unexpected base version for ${name}: ${base} (tag/manifest drift; expected ${expectedBase})`)
+        process.exit(1)
+      }
+    } else if (commonBase === undefined) {
+      commonBase = base
+    } else if (base !== commonBase) {
+      console.error(`publish-fork: unexpected base version for ${name}: ${base} (the set spans more than one upstream line; pin with --base)`)
       process.exit(1)
     }
     versionOf.set(name, `${base}.zw.${zw}`)

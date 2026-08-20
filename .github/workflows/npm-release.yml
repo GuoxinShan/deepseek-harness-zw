@@ -19,6 +19,10 @@ on:
         description: 'zw patch number (N in v<baseline>+zw.N)'
         required: true
         type: string
+      base:
+        description: 'optional upstream baseline to assert (e.g. 0.1.0-rc.8); omit for the common-base drift check'
+        required: false
+        type: string
 
 jobs:
   publish:
@@ -52,6 +56,21 @@ jobs:
       - name: Resolve zw number
         id: zw
         run: |
+          base_args=""
+          if [ -n "${{ inputs.base }}" ]; then
+            # Manual dispatch may pin the baseline explicitly.
+            base_args="--base ${{ inputs.base }}"
+          elif [ -z "${{ inputs.zw }}" ]; then
+            # Tag push: the tag itself spells v<base>+zw.<N>; pass the base so
+            # publish-fork can fail loud on tag/manifest drift.
+            tag="${GITHUB_REF_NAME}"
+            base="${tag%+zw.*}"
+            case "$base" in
+              v?*) base="${base#v}" ;;
+              *) echo "tag $tag carries no baseline"; exit 1 ;;
+            esac
+            base_args="--base $base"
+          fi
           if [ -n "${{ inputs.zw }}" ]; then
             echo "n=${{ inputs.zw }}" >> "$GITHUB_OUTPUT"
           else
@@ -62,6 +81,7 @@ jobs:
             esac
             echo "n=$n" >> "$GITHUB_OUTPUT"
           fi
+          echo "base-args=$base_args" >> "$GITHUB_OUTPUT"
 
       - name: Publish
         env:
@@ -71,7 +91,8 @@ jobs:
           # up (the env var alone is not consulted for a bare `npm publish`
           # from a package cwd).
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > "$HOME/.npmrc"
-          node scripts/publish-fork.mjs "${{ steps.zw.outputs.n }}"
+          # shellcheck disable=SC2086 -- base-args is a controlled, space-free pair
+          node scripts/publish-fork.mjs "${{ steps.zw.outputs.n }}" ${{ steps.zw.outputs.base-args }}
 
       - name: Release notes
         uses: softprops/action-gh-release@v2
