@@ -1,0 +1,18 @@
+.github/workflows/npm-release.yml
+  h_04d4cd0008e41d 22-25,59-73,84,94-95
+packages/guard/todo-completion-guard/package.json
+  h_04d4cd0008e41d 4
+scripts/publish-fork.mjs
+  h_04d4cd0008e41d 145-149,151,155-163
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "092eba7634b2b4b63c5a513fd0b61b6cc5593ed1",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
