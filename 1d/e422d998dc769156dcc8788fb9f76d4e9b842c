@@ -1,0 +1,14 @@
+scripts/publish-fork.mjs
+  h_04d4cd0008e41d 88,103-109,111-112,137-143,194
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "1de422d998dc769156dcc8788fb9f76d4e9b842c",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
