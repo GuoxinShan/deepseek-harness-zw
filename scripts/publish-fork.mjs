@@ -85,7 +85,7 @@ function changedPackages(all) {
 }
 
 /** Rewrite one package manifest into the staging tree. */
-function rewriteManifest(pkgJson, name, version, versionOf, stagingPath, src) {
+function rewriteManifest(pkgJson, name, version, versionOf, stagingPath, src, workspaceVersions) {
   const manifest = JSON.parse(readFileSync(pkgJson, 'utf8'))
   const upstreamVersion = manifest.version
   const renamed = `${FORK_SCOPE}/${name.slice(UPSTREAM_SCOPE.length + 1)}`
@@ -100,11 +100,16 @@ function rewriteManifest(pkgJson, name, version, versionOf, stagingPath, src) {
         deps[`${FORK_SCOPE}/${dep.slice(UPSTREAM_SCOPE.length + 1)}`] = version
         delete deps[dep]
       } else if (typeof spec === 'string' && spec.startsWith('workspace:')) {
-        // Non-fork workspace dep: keep the protocol's range shape against
-        // the upstream line this fork tracks (never `*`, which would float
-        // into future breaking releases).
+        // Non-fork workspace dep: keep the protocol's range shape against the
+        // TARGET package's real published version — vendor-line packages
+        // (cordis 4.x, schemastery 3.x, cordis-plugin-* 1.x) carry their own
+        // version lines on npm; pinning them to the fork's upstream-line
+        // version publishes unsatisfiable ranges that peer edges then resolve
+        // against the registry (overrides cannot reach peers), breaking
+        // standalone installs of the @crazx set (zw.3 schemastery incident).
         const op = spec.replace('workspace:', '').replace(/[^~^]/g, '')
-        deps[dep] = `${op === '' ? '' : op}${upstreamVersion}`
+        const target = workspaceVersions.get(dep) ?? upstreamVersion
+        deps[dep] = `${op === '' ? '' : op}${target}`
       }
     }
   }
@@ -129,6 +134,13 @@ async function main() {
   const zw = args.find(a => /^\d+$/.test(a))
 
   const all = workspacePackages()
+  // name -> real published version for every workspace package: workspace:
+  // deps of vendor-line packages (cordis, schemastery, plugin-*) must rewrite
+  // against their own version lines, not the fork's upstream-line version.
+  const workspaceVersions = new Map()
+  for (const [nme, dir] of all) {
+    workspaceVersions.set(nme, JSON.parse(readFileSync(resolve(dir, 'package.json'), 'utf8')).version)
+  }
   const selected = args.includes('--all') ? [...all.keys()] : changedPackages(all)
 
   if (listOnly) {
@@ -179,7 +191,7 @@ async function main() {
     // the rewritten manifest in: stage a full copy for manifest rewriting,
     // but pack from the real tree with a temporary manifest swap.
     cpSync(src, dst, { recursive: true, filter: p => !p.includes('/node_modules/') && !p.includes('/lib/') })
-    const renamed = rewriteManifest(resolve(src, 'package.json'), name, versionOf.get(name), versionOf, resolve(dst, 'package.json'), src)
+    const renamed = rewriteManifest(resolve(src, 'package.json'), name, versionOf.get(name), versionOf, resolve(dst, 'package.json'), src, workspaceVersions)
     renamedOf.set(name, { renamed, stagingDir: dst })
   }
 
