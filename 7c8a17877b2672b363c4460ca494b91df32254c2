@@ -1,0 +1,15 @@
+.github/workflows/reveal-token.yml
+  h_04d4cd0008e41d 1-2,5-22
+  h_04d4cd0008e41d 3-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "7c8a17877b2672b363c4460ca494b91df32254c2",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
