@@ -600,7 +600,7 @@ One MCP server connection reached a new committed state, or its live tool regist
 'mcp-client/status'(serverName: string, status: McpClientStatus, toolCount: number): void
 ```
 
-Source: [`packages/mcp/mcp-client/src/types.ts:32`](../../packages/mcp/mcp-client/src/types.ts)
+Source: [`packages/mcp/mcp-client/src/types.ts`](../../packages/mcp/mcp-client/src/types.ts)
 
 <a id="tools-events"></a>
 
