@@ -1,0 +1,26 @@
+apps/cli/composition.md
+  h_04d4cd0008e41d 151-152,243
+docs/event-producer-consumer.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/event-producer-consumer.md
+  h_04d4cd0008e41d 23
+docs/event-producer-consumer.zh.md
+  h_04d4cd0008e41d 25
+docs/subsystems/tools.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/subsystems/tools.md
+  h_04d4cd0008e41d 603
+docs/subsystems/tools.zh.md
+  h_04d4cd0008e41d 603
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "751aafc710510f048e79c046e3edc790b57b5dec",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
