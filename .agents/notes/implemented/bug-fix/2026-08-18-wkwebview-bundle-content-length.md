@@ -10,7 +10,9 @@ The plugin-bundle route answered every `/plugins/<id>/client.js` request with `w
 
 ## Decision
 
-`serveBundle` in `packages/client/modules` states the buffered body's length explicitly: `content-length: body.length` on both the bundle and its source map. For a fully-buffered body the explicit length is the canonical framing — Node sends a plain `content-length` response instead of a chunked one, and ordinary browsers are unaffected. The source-map spec pins the header, so a regression back to chunked framing fails a unit test before any shell hits it.
+`serveBundle` in `packages/client/modules` states the buffered body's length explicitly: `content-length: body.length` on both the bundle and its source map. `serveStatic` in `packages/host/frontend-static` does the same for every successful 200 — the rendered index and ordinary dist files — so a stalled index cannot blank the window. For a fully-buffered body the explicit length is the canonical framing — Node sends a plain `content-length` response instead of a chunked one, and ordinary browsers are unaffected. The source-map spec pins the bundle header, and the frontend-static real-composition suite pins the index and asset headers, so a regression back to chunked framing fails a unit test before any shell hits it.
+
+Upstream 0.1.1-rc.1 rewrote `serveStatic` to 404 missing paths instead of SPA-fallback 200. The fork keeps that miss contract and still sets `Content-Length` on the remaining 200 responses.
 
 ## Alternatives considered
 

@@ -10,7 +10,9 @@ Status: implemented
 
 ## Decision
 
-`packages/client/modules` 的 `serveBundle` 显式声明已缓冲 body 的长度：bundle 与其 source map 都带 `content-length: body.length`。对完全缓冲的 body，显式长度是规范分帧——Node 会发送带普通 `content-length` 的响应而非 chunked，普通浏览器不受影响。source map 的测试固定了该头，分帧退回 chunked 会在任何壳受影响之前就先挂掉单元测试。
+`packages/client/modules` 的 `serveBundle` 显式声明已缓冲 body 的长度：bundle 与其 source map 都带 `content-length: body.length`。`packages/host/frontend-static` 的 `serveStatic` 对每个成功的 200 同样设置该头——包括渲染后的 index 和普通 dist 文件——避免卡住的 index 把窗口留成空白。对完全缓冲的 body，显式长度是规范分帧——Node 会发送带普通 `content-length` 的响应而非 chunked，普通浏览器不受影响。source map 的测试固定了 bundle 头，frontend-static 的真实组合测试固定了 index 与资产头，分帧退回 chunked 会在任何壳受影响之前就先挂掉单元测试。
+
+上游 0.1.1-rc.1 把 `serveStatic` 的未命中项从 SPA 回退 200 改成 404。fork 保留该未命中契约，并继续给剩余的 200 响应设置 `Content-Length`。
 
 ## Alternatives considered
 
