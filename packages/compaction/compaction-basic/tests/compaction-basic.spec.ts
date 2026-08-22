@@ -296,6 +296,11 @@ describe('compact configuration and defaults', () => {
       maxTokens: 8192,
       compactionRetries: 1,
       maxOverflowRetries: 1,
+      chunkInputRatio: 0.6,
+      mapMaxTokens: 4096,
+      reduceMaxTokens: 8192,
+      maxDepth: 4,
+      replayTools: false,
       modelPolicies: [],
       auto: true,
     })
@@ -362,6 +367,11 @@ describe('compact configuration and defaults', () => {
         maxTokens: 512,
         compactionRetries: 2,
         maxOverflowRetries: 3,
+        chunkInputRatio: 0.7,
+        mapMaxTokens: 1024,
+        reduceMaxTokens: 2048,
+        maxDepth: 6,
+        replayTools: true,
       }],
     }), { provider: 'ratio-provider', model: 'ratio-model' })
     expect(resolveCompactSpec(ratioOverride, 2_000)).toMatchObject({
@@ -372,6 +382,11 @@ describe('compact configuration and defaults', () => {
       maxTokens: 512,
       compactionRetries: 2,
       maxOverflowRetries: 3,
+      chunkInputRatio: 0.7,
+      mapMaxTokens: 1024,
+      reduceMaxTokens: 2048,
+      maxDepth: 6,
+      replayTools: true,
     })
   })
 
@@ -415,6 +430,13 @@ describe('compact configuration and defaults', () => {
       [{ maxTokens: 0 }, /maxTokens/],
       [{ compactionRetries: -1 }, /compactionRetries/],
       [{ maxOverflowRetries: -1 }, /maxOverflowRetries/],
+      [{ chunkInputRatio: 0.09 }, /chunkInputRatio/],
+      [{ chunkInputRatio: 0.91 }, /chunkInputRatio/],
+      [{ mapMaxTokens: 0 }, /mapMaxTokens/],
+      [{ reduceMaxTokens: 1.5 }, /reduceMaxTokens/],
+      [{ maxDepth: 0 }, /maxDepth/],
+      [{ maxDepth: 9 }, /maxDepth/],
+      [{ replayTools: 'yes' }, /replayTools must be a boolean/],
       [{ auto: 'yes' }, /auto must be a boolean/],
       [{ summarizationProvider: 1 }, /summarizationProvider must be a string/],
       [{ summarizationModel: 1 }, /summarizationModel must be a string/],

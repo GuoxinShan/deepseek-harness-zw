@@ -37,6 +37,7 @@ Status: implemented
 - **移除无用的渲染表面。** 旧的拍平路径（`renderTranscript` / `renderContentBlocks` 及其在 `dsh-compaction` 中的 spec）已无消费方，连同其导出一并删除。
 - **README 的 Model Experience** 现在把 `dsh-compaction-basic` 的辅助请求记述为回放的前缀加上一条尾部压缩指令消息，并把其 KV Cache 效果记述为复用已预热的对话前缀。
 - **带框架的检查点输出未改变**，因此落地的 `user/message` 和每个对话请求快照都不受影响；只有辅助请求的形状发生了变化。
+- **超大输入后来获得有界回退。** [层次回退决策](2026-08-22-bounded-hierarchical-compaction-fallback.zh.md)会在完整请求能够装入时保留这里的精确 one-shot 路径，只有 one-shot 无法装入或 Provider 已确认溢出时，map-reduce 才有意放弃完整前缀一致性。这是对 cache 契约的部分扩展，而非取代。
 
 ## 测试
 

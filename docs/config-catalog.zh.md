@@ -502,6 +502,16 @@ export interface CompactionPolicyConfig {
   compactionRetries?: number
   /** Maximum retries after canonical context overflow; `0` disables recovery. Defaults to `1`. */
   maxOverflowRetries?: number
+  /** Fraction of the summary model window available to each hierarchical stage input. Defaults to `0.6`. */
+  chunkInputRatio?: number
+  /** Generation cap for one hierarchical map call. Defaults to `4096`. */
+  mapMaxTokens?: number
+  /** Generation cap for one hierarchical reduce call. Defaults to `8192`. */
+  reduceMaxTokens?: number
+  /** Maximum recursive reduce rounds after mapping. Defaults to `4`. */
+  maxDepth?: number
+  /** Replay tool schemas in hierarchical stages. Defaults to `false`. */
+  replayTools?: boolean
 }
 
 /** Exact provider/model override merged over the default compaction policy. */
@@ -513,7 +523,7 @@ export interface ModelCompactPolicyConfig extends CompactionPolicyConfig {
 }
 ```
 
-来源：[`packages/compaction/compaction-basic/src/types.ts:38`](../packages/compaction/compaction-basic/src/types.ts)
+来源：[`packages/compaction/compaction-basic/src/types.ts:48`](../packages/compaction/compaction-basic/src/types.ts)
 
 <a id="deepseek-aidsh-compaction-tool-result-pruner"></a>
 
@@ -3256,6 +3266,7 @@ export interface Config {
 - `@deepseek-ai/dsh-subagent`（[`packages/subagent/subagent/src/index.ts`](../packages/subagent/subagent/src/index.ts)）
 - `@deepseek-ai/dsh-subprocess-local`（[`packages/subprocess/subprocess-local/src/index.ts`](../packages/subprocess/subprocess-local/src/index.ts)）
 - `@deepseek-ai/dsh-terminal`（[`packages/terminal/terminal/src/index.ts`](../packages/terminal/terminal/src/index.ts)）
+- `@deepseek-ai/dsh-todo-completion-guard`（[`packages/guard/todo-completion-guard/src/index.ts`](../packages/guard/todo-completion-guard/src/index.ts)）
 - `@deepseek-ai/dsh-tool-ask-user` — 需要 `tools` · `userInteraction`（[`packages/interaction/tool-ask-user/src/index.ts`](../packages/interaction/tool-ask-user/src/index.ts)）
 - `@deepseek-ai/dsh-tool-call-timeout-policy` — 需要 `tools`（[`packages/guard/timeout-policy/src/index.ts`](../packages/guard/timeout-policy/src/index.ts)）
 - `@deepseek-ai/dsh-tool-cordis` — 需要 `tools` · `systemPrompt` · `dynamicCordisRunner` · `cordisInspect`（[`packages/extensions/tool-cordis/src/index.ts`](../packages/extensions/tool-cordis/src/index.ts)）

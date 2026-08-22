@@ -68,6 +68,11 @@ describe('real Loader composition', () => {
       '  config:',
       '    thresholdRatio: 0.5',
       '    retainRatio: 0.125',
+      '    chunkInputRatio: 0.7',
+      '    mapMaxTokens: 1024',
+      '    reduceMaxTokens: 2048',
+      '    maxDepth: 6',
+      '    replayTools: true',
       '    auto: false',
     ])
 
@@ -80,6 +85,11 @@ describe('real Loader composition', () => {
     expect((loaded.compaction as unknown as BasicCompactionEngine).config).toMatchObject({
       thresholdRatio: 0.5,
       retainRatio: 0.125,
+      chunkInputRatio: 0.7,
+      mapMaxTokens: 1024,
+      reduceMaxTokens: 2048,
+      maxDepth: 6,
+      replayTools: true,
       auto: false,
     })
   })
