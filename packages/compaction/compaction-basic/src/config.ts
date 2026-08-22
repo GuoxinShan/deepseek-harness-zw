@@ -22,6 +22,18 @@ const DEFAULT_THRESHOLD_RATIO = 0.8
 /** Default verbatim-tail fraction for every routed model. */
 const DEFAULT_RETAIN_RATIO = 0.16
 
+/** Default summary-window fraction available to one hierarchical stage input. */
+const DEFAULT_CHUNK_INPUT_RATIO = 0.6
+
+/** Default generation cap for one hierarchical map call. */
+const DEFAULT_MAP_MAX_TOKENS = 4096
+
+/** Default generation cap for one hierarchical reduce call. */
+const DEFAULT_REDUCE_MAX_TOKENS = 8192
+
+/** Default maximum recursive reduce rounds after mapping. */
+const DEFAULT_MAX_DEPTH = 4
+
 /** Fields shared by top-level defaults and exact-target overrides. */
 const POLICY_CONFIG_KEYS = [
   'thresholdRatio',
@@ -32,6 +44,11 @@ const POLICY_CONFIG_KEYS = [
   'maxTokens',
   'compactionRetries',
   'maxOverflowRetries',
+  'chunkInputRatio',
+  'mapMaxTokens',
+  'reduceMaxTokens',
+  'maxDepth',
+  'replayTools',
 ] as const
 
 /** Complete public top-level configuration key set. */
@@ -91,6 +108,11 @@ export function resolveConfig(config: BasicCompactionConfig = {}): ResolvedConfi
     maxTokens: config.maxTokens ?? 8192,
     compactionRetries: config.compactionRetries ?? 1,
     maxOverflowRetries: config.maxOverflowRetries ?? 1,
+    chunkInputRatio: config.chunkInputRatio ?? DEFAULT_CHUNK_INPUT_RATIO,
+    mapMaxTokens: config.mapMaxTokens ?? DEFAULT_MAP_MAX_TOKENS,
+    reduceMaxTokens: config.reduceMaxTokens ?? DEFAULT_REDUCE_MAX_TOKENS,
+    maxDepth: config.maxDepth ?? DEFAULT_MAX_DEPTH,
+    replayTools: config.replayTools ?? false,
     modelPolicies,
     auto: config.auto ?? true,
   })
@@ -121,6 +143,11 @@ export function resolveTargetPolicy(
     maxTokens: override?.maxTokens ?? config.maxTokens,
     compactionRetries: override?.compactionRetries ?? config.compactionRetries,
     maxOverflowRetries: override?.maxOverflowRetries ?? config.maxOverflowRetries,
+    chunkInputRatio: override?.chunkInputRatio ?? config.chunkInputRatio,
+    mapMaxTokens: override?.mapMaxTokens ?? config.mapMaxTokens,
+    reduceMaxTokens: override?.reduceMaxTokens ?? config.reduceMaxTokens,
+    maxDepth: override?.maxDepth ?? config.maxDepth,
+    replayTools: override?.replayTools ?? config.replayTools,
   })
 }
 
@@ -163,6 +190,11 @@ export function resolveCompactSpec(
     maxTokens: policy.maxTokens,
     compactionRetries: policy.compactionRetries,
     maxOverflowRetries: policy.maxOverflowRetries,
+    chunkInputRatio: policy.chunkInputRatio,
+    mapMaxTokens: policy.mapMaxTokens,
+    reduceMaxTokens: policy.reduceMaxTokens,
+    maxDepth: policy.maxDepth,
+    replayTools: policy.replayTools,
   })
 }
 
@@ -234,6 +266,11 @@ function validatePolicy(
   const maxTokens = config.maxTokens
   const compactionRetries = config.compactionRetries
   const maxOverflowRetries = config.maxOverflowRetries
+  const chunkInputRatio = config.chunkInputRatio
+  const mapMaxTokens = config.mapMaxTokens
+  const reduceMaxTokens = config.reduceMaxTokens
+  const maxDepth = config.maxDepth
+  const replayTools = config.replayTools
   if (thresholdRatio !== undefined) assertRatio(`${name}.thresholdRatio`, thresholdRatio)
   if (retainRatio !== undefined) assertRatio(`${name}.retainRatio`, retainRatio)
   if (retainTokens !== undefined) assertNonNegativeInteger(`${name}.retainTokens`, retainTokens)
@@ -246,6 +283,15 @@ function validatePolicy(
   }
   if (maxOverflowRetries !== undefined) {
     assertNonNegativeInteger(`${name}.maxOverflowRetries`, maxOverflowRetries)
+  }
+  if (chunkInputRatio !== undefined) {
+    assertRange(`${name}.chunkInputRatio`, chunkInputRatio, 0.1, 0.9)
+  }
+  if (mapMaxTokens !== undefined) assertPositiveInteger(`${name}.mapMaxTokens`, mapMaxTokens)
+  if (reduceMaxTokens !== undefined) assertPositiveInteger(`${name}.reduceMaxTokens`, reduceMaxTokens)
+  if (maxDepth !== undefined) assertIntegerRange(`${name}.maxDepth`, maxDepth, 1, 8)
+  if (replayTools !== undefined && typeof replayTools !== 'boolean') {
+    throw new Error(`${name}.replayTools must be a boolean`)
   }
 
   validateSummarizationPair(config, name)
@@ -306,5 +352,22 @@ function assertNonNegativeInteger(name: string, value: unknown): asserts value i
 function assertRatio(name: string, value: unknown): asserts value is number {
   if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0 || value > 1) {
     throw new Error(`${name} (${String(value)}) must be a number in (0, 1]`)
+  }
+}
+
+function assertRange(name: string, value: unknown, minimum: number, maximum: number): asserts value is number {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < minimum || value > maximum) {
+    throw new Error(`${name} (${String(value)}) must be a number in [${minimum}, ${maximum}]`)
+  }
+}
+
+function assertIntegerRange(
+  name: string,
+  value: unknown,
+  minimum: number,
+  maximum: number,
+): asserts value is number {
+  if (typeof value !== 'number' || !Number.isInteger(value) || value < minimum || value > maximum) {
+    throw new Error(`${name} (${String(value)}) must be an integer in [${minimum}, ${maximum}]`)
   }
 }

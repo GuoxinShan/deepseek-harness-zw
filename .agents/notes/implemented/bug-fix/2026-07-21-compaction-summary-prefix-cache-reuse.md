@@ -37,6 +37,7 @@ Auto-compaction always anchors at the surface head, so the shadowed region is th
 - **Dead render surface removed.** The old flattening path (`renderTranscript` / `renderContentBlocks` and its spec in `dsh-compaction`) had no remaining consumer and was deleted with its export.
 - **README model experience** for `dsh-compaction-basic` now documents the auxiliary request as the replayed prefix plus a trailing compaction-instruction message, and its KV-cache effect as reuse of the warm conversation prefix.
 - **The framed checkpoint output is unchanged**, so the landed `user/message` and every conversation-request snapshot are unaffected; only the auxiliary request's shape changed.
+- **Oversized inputs later gained a bounded fallback.** The [hierarchical fallback decision](2026-08-22-bounded-hierarchical-compaction-fallback.md) preserves this exact one-shot path whenever the complete request fits, while map-reduce intentionally gives up full-prefix identity only when one-shot cannot fit or the Provider confirms overflow. That is a partial extension, not a supersession of this cache contract.
 
 ## Testing
 
