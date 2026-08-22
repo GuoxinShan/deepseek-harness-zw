@@ -1,0 +1,68 @@
+.agents/notes/implemented/bug-fix/2026-07-21-compaction-summary-prefix-cache-reuse.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/bug-fix/2026-07-21-compaction-summary-prefix-cache-reuse.md
+  h_04d4cd0008e41d 40
+.agents/notes/implemented/bug-fix/2026-07-21-compaction-summary-prefix-cache-reuse.zh.md
+  h_04d4cd0008e41d 40
+.agents/notes/implemented/bug-fix/2026-08-22-bounded-hierarchical-compaction-fallback.i18n.yaml
+  h_04d4cd0008e41d 1-6
+.agents/notes/implemented/bug-fix/2026-08-22-bounded-hierarchical-compaction-fallback.md
+  h_04d4cd0008e41d 1-60
+.agents/notes/implemented/bug-fix/2026-08-22-bounded-hierarchical-compaction-fallback.zh.md
+  h_04d4cd0008e41d 1-60
+docs/config-catalog.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/config-catalog.md
+  h_04d4cd0008e41d 503-512,524,3266
+docs/config-catalog.zh.md
+  h_04d4cd0008e41d 505-514,526,3269
+docs/subsystems/compaction.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/subsystems/compaction.md
+  h_04d4cd0008e41d 88-89
+docs/subsystems/compaction.zh.md
+  h_04d4cd0008e41d 88-89
+packages/compaction/compaction-basic/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/compaction/compaction-basic/README.md
+  h_04d4cd0008e41d 5,18-19,41-45,115,158,162,168-169
+packages/compaction/compaction-basic/README.zh.md
+  h_04d4cd0008e41d 5,18-19,41-45,115,158,162,168-169
+packages/compaction/compaction-basic/src/config.ts
+  h_04d4cd0008e41d 25-36,47-51,111-115,146-150,193-197,269-273,287-295,357-373
+packages/compaction/compaction-basic/src/hierarchical-planner.ts
+  h_04d4cd0008e41d 1-155
+packages/compaction/compaction-basic/src/hierarchical-prompts.ts
+  h_04d4cd0008e41d 1-99
+packages/compaction/compaction-basic/src/hierarchical.ts
+  h_04d4cd0008e41d 1-608
+packages/compaction/compaction-basic/src/index.ts
+  h_04d4cd0008e41d 30,82-84,97-101,124-128,241-244,259-266
+packages/compaction/compaction-basic/src/summarizer.ts
+  h_04d4cd0008e41d 31
+packages/compaction/compaction-basic/src/types.ts
+  h_04d4cd0008e41d 27-36,68-72,75-80
+packages/compaction/compaction-basic/tests/compaction-basic.spec.ts
+  h_04d4cd0008e41d 299-303,370-374,385-389,433-439
+packages/compaction/compaction-basic/tests/compaction-loop-repro.spec.ts
+  h_04d4cd0008e41d 94
+packages/compaction/compaction-basic/tests/hierarchical-planner.spec.ts
+  h_04d4cd0008e41d 1-123
+packages/compaction/compaction-basic/tests/hierarchical-prompts.spec.ts
+  h_04d4cd0008e41d 1-35
+packages/compaction/compaction-basic/tests/hierarchical.spec.ts
+  h_04d4cd0008e41d 1-565
+packages/compaction/compaction-basic/tests/loader-composition.spec.ts
+  h_04d4cd0008e41d 71-75,88-92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "edf9881e071d4f636250eabe5f81e1335dec90f3",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
