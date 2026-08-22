@@ -1,0 +1,846 @@
+.agents/notes/implemented/architecture/2026-07-05-reconstructable-requests.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/architecture/2026-07-05-reconstructable-requests.md
+  h_04d4cd0008e41d 54
+.agents/notes/implemented/architecture/2026-07-05-reconstructable-requests.zh.md
+  h_04d4cd0008e41d 54
+.agents/notes/implemented/architecture/2026-08-12-pi-ai-route-default-input-modalities.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/architecture/2026-08-12-pi-ai-route-default-input-modalities.md
+  h_04d4cd0008e41d 21,27,31,45
+.agents/notes/implemented/architecture/2026-08-12-pi-ai-route-default-input-modalities.zh.md
+  h_04d4cd0008e41d 21,27,31,45
+.agents/notes/implemented/bug-fix/2026-07-29-atomic-web-image-admission.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/bug-fix/2026-07-29-atomic-web-image-admission.md
+  h_04d4cd0008e41d 9,13,15,21,23,29
+.agents/notes/implemented/bug-fix/2026-07-29-atomic-web-image-admission.zh.md
+  h_04d4cd0008e41d 9,13,15,21,23,29
+.agents/notes/implemented/bug-fix/2026-08-21-deepseek-files-inline-fallback.i18n.yaml
+  h_04d4cd0008e41d 4-6
+.agents/notes/implemented/bug-fix/2026-08-21-deepseek-files-inline-fallback.md
+  h_04d4cd0008e41d 1,5,9,13,15,17,19,23-29,33,37
+.agents/notes/implemented/bug-fix/2026-08-21-deepseek-files-inline-fallback.zh.md
+  h_04d4cd0008e41d 1,5,9,13,15,17,19,23-29,33,37
+.agents/notes/implemented/feature/2026-07-22-web-multimodal-image-input-and-durable-attachments.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/feature/2026-07-22-web-multimodal-image-input-and-durable-attachments.md
+  h_04d4cd0008e41d 72,117,125,127,133,143,151-155,168,213,215,217
+.agents/notes/implemented/feature/2026-07-22-web-multimodal-image-input-and-durable-attachments.zh.md
+  h_04d4cd0008e41d 72,117,125,127,133,143,151-155,168,213,215,217
+.agents/notes/implemented/feature/2026-07-31-gui-full-access-confirmation.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/feature/2026-07-31-gui-full-access-confirmation.md
+  h_04d4cd0008e41d 13,19
+.agents/notes/implemented/feature/2026-07-31-gui-full-access-confirmation.zh.md
+  h_04d4cd0008e41d 13,19
+.agents/notes/implemented/feature/2026-07-31-permission-default-for-new-sessions.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/feature/2026-07-31-permission-default-for-new-sessions.md
+  h_04d4cd0008e41d 15,23
+.agents/notes/implemented/feature/2026-07-31-permission-default-for-new-sessions.zh.md
+  h_04d4cd0008e41d 15,23
+.agents/notes/implemented/feature/2026-07-31-workspace-write-surface-default.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/feature/2026-07-31-workspace-write-surface-default.md
+  h_04d4cd0008e41d 15,33
+.agents/notes/implemented/feature/2026-07-31-workspace-write-surface-default.zh.md
+  h_04d4cd0008e41d 15,33
+.agents/notes/implemented/feature/2026-08-10-minimal-read-image-tool.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/feature/2026-08-10-minimal-read-image-tool.md
+  h_04d4cd0008e41d 9,13,15,17,19,23,30-31
+.agents/notes/implemented/feature/2026-08-10-minimal-read-image-tool.zh.md
+  h_04d4cd0008e41d 9,13,15,17,19,23,30-31
+.agents/notes/implemented/feature/2026-08-12-web-image-intake-and-limits-alignment.i18n.yaml
+  h_04d4cd0008e41d 5-6
+.agents/notes/implemented/feature/2026-08-12-web-image-intake-and-limits-alignment.md
+  h_04d4cd0008e41d 19
+.agents/notes/implemented/feature/2026-08-12-web-image-intake-and-limits-alignment.zh.md
+  h_04d4cd0008e41d 19
+.agents/notes/implemented/feature/2026-08-20-unified-image-request-pipeline.i18n.yaml
+  h_04d4cd0008e41d 4-6
+.agents/notes/implemented/feature/2026-08-20-unified-image-request-pipeline.md
+  h_04d4cd0008e41d 1,5,9,13,15,17-45,49-61,63,65,69
+.agents/notes/implemented/feature/2026-08-20-unified-image-request-pipeline.zh.md
+  h_04d4cd0008e41d 1-69
+.agents/notes/proposed/bug-fix/2026-08-20-attachment-read-quarantine.i18n.yaml
+  h_04d4cd0008e41d 4-6
+.agents/notes/proposed/bug-fix/2026-08-20-attachment-read-quarantine.md
+  h_04d4cd0008e41d 1,3,5,9,11,13,15,17-19,23-26,28,30-34,36,38
+.agents/notes/proposed/bug-fix/2026-08-20-attachment-read-quarantine.zh.md
+  h_04d4cd0008e41d 1-38
+apps/cli/package.json
+  h_04d4cd0008e41d 4
+apps/web/package.json
+  h_04d4cd0008e41d 4
+apps/web/tests/access-confirmation.e2e.ts
+  h_04d4cd0008e41d 53,56-57,59,72
+apps/web/tests/settings-chrome.e2e.ts
+  h_04d4cd0008e41d 65,138,143,147-148,154,158,163-166,170,175
+apps/web/tests/snapshots/access-confirmation/ui.expected.md
+  h_04d4cd0008e41d 1-2,6,10
+apps/web/tests/snapshots/settings-chrome/dialog.expected.md
+  h_04d4cd0008e41d 25-26
+docs/config-catalog.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/config-catalog.md
+  h_04d4cd0008e41d 330,332,334,336,338,340-345,349,416,951-970,989-994,1000,1102-1105,1254,1484-1485,1505
+docs/config-catalog.zh.md
+  h_04d4cd0008e41d 332,334,336,338,340,342-347,351,418,953-972,991-996,1002,1104-1107,1256,1486-1487,1507
+docs/event-producer-consumer.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/event-producer-consumer.md
+  h_04d4cd0008e41d 23,41
+docs/event-producer-consumer.zh.md
+  h_04d4cd0008e41d 25,43
+docs/module-graph.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/module-graph.md
+  h_04d4cd0008e41d 416,418,420,1512,1635
+docs/module-graph.zh.md
+  h_04d4cd0008e41d 418,420,422,1514,1637
+docs/persistence-catalog.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/persistence-catalog.md
+  h_04d4cd0008e41d 509,512,514,517
+docs/persistence-catalog.zh.md
+  h_04d4cd0008e41d 511,514,516,519
+docs/subsystems/attachment.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/subsystems/attachment.md
+  h_04d4cd0008e41d 21,35-42,59-60,96-128,154-156,162-164,166,174,178-186
+docs/subsystems/attachment.zh.md
+  h_04d4cd0008e41d 21,35-42,59-60,96-128,154-156,162-164,166,174,178-186
+docs/subsystems/llm-streaming.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/subsystems/llm-streaming.md
+  h_04d4cd0008e41d 678-679,735-744
+docs/subsystems/llm-streaming.zh.md
+  h_04d4cd0008e41d 684-685,741-750
+docs/subsystems/permission-presets.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/subsystems/permission-presets.md
+  h_04d4cd0008e41d 37-38
+docs/subsystems/permission-presets.zh.md
+  h_04d4cd0008e41d 37-38
+docs/tool-catalog.i18n.yaml
+  h_04d4cd0008e41d 5-6
+docs/tool-catalog.md
+  h_04d4cd0008e41d 27,698,743
+docs/tool-catalog.zh.md
+  h_04d4cd0008e41d 31,704,749
+examples/acp-agent/tests/acp.snapshot.ts
+  h_04d4cd0008e41d 253-256,705,707-708,710-711,713-768,807,810-821,860-861,867,871-903
+examples/acp-agent/tests/fixtures/image-offload.cordis.yml
+  h_04d4cd0008e41d 15-16
+examples/acp-agent/tests/snapshots/code-mode-read-image/system-prompt.expected.md
+  h_04d4cd0008e41d 128,366-369
+examples/acp-agent/tests/snapshots/read-image-dimension/input.json
+  h_04d4cd0008e41d 11
+examples/acp-agent/tests/snapshots/read-image-dimension/session.jsonl
+  h_04d4cd0008e41d 2,6,17,21,24
+examples/acp-agent/tests/snapshots/read-image-dimension/stdout.expected.jsonl
+  h_04d4cd0008e41d 3
+examples/acp-agent/tests/snapshots/read-image/tool-schemas.expected.json
+  h_04d4cd0008e41d 249
+examples/headless-agent/tests/snapshots/headless-profile/session.expected.jsonl
+  h_04d4cd0008e41d 2
+package.json
+  h_04d4cd0008e41d 3
+packages/acp/acp/package.json
+  h_04d4cd0008e41d 4
+packages/api/gateway/package.json
+  h_04d4cd0008e41d 4
+packages/api/remotes/package.json
+  h_04d4cd0008e41d 4
+packages/attachment/attachment-local/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/attachment/attachment-local/README.md
+  h_04d4cd0008e41d 5-9,19,25-26
+packages/attachment/attachment-local/README.zh.md
+  h_04d4cd0008e41d 5-9,19,25-26
+packages/attachment/attachment-local/package.json
+  h_04d4cd0008e41d 4
+packages/attachment/attachment-local/src/compression-limiter.ts
+  h_04d4cd0008e41d 1-43
+packages/attachment/attachment-local/src/encoding.ts
+  h_04d4cd0008e41d 1-46
+packages/attachment/attachment-local/src/image.ts
+  h_04d4cd0008e41d 10,12,14-41,51-61,68-80
+packages/attachment/attachment-local/src/index.ts
+  h_04d4cd0008e41d 7-14,16-19,21-25,27-28,32-36,38-40,42-48,54,56,58,60,62,64-130,142-145,151-156,169-182,186-196,200-203,209-247
+packages/attachment/attachment-local/src/normalization.ts
+  h_04d4cd0008e41d 1-206
+packages/attachment/attachment-local/src/request-image.ts
+  h_04d4cd0008e41d 1-279
+packages/attachment/attachment-local/src/store.ts
+  h_04d4cd0008e41d 17-18,20,53,57,61-63,65-67,69-96,100-116,179,181-182,184-192,206,241-258
+packages/attachment/attachment-local/tests/encoding.spec.ts
+  h_04d4cd0008e41d 1-96
+packages/attachment/attachment-local/tests/image.spec.ts
+  h_04d4cd0008e41d 21,34,50-82
+packages/attachment/attachment-local/tests/index.spec.ts
+  h_04d4cd0008e41d 7,9-11,22-26,35-47,55,65-125,133
+packages/attachment/attachment-local/tests/normalization.spec.ts
+  h_04d4cd0008e41d 1-363
+packages/attachment/attachment-local/tests/request-image-verification.spec.ts
+  h_04d4cd0008e41d 1-47
+packages/attachment/attachment-local/tests/request-image.spec.ts
+  h_04d4cd0008e41d 1-348
+packages/attachment/attachment-local/tests/store.spec.ts
+  h_04d4cd0008e41d 10-11,38,42-43,85,110,119-120,141-163,166,173,189,192,195,198,205,208,211,217,245,249,260,263-272
+packages/attachment/attachment/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/attachment/attachment/README.md
+  h_04d4cd0008e41d 5,7,13
+packages/attachment/attachment/README.zh.md
+  h_04d4cd0008e41d 5,7,13
+packages/attachment/attachment/package.json
+  h_04d4cd0008e41d 4
+packages/attachment/attachment/src/brand.ts
+  h_04d4cd0008e41d 16-27
+packages/attachment/attachment/src/error.ts
+  h_04d4cd0008e41d 26
+packages/attachment/attachment/src/index.ts
+  h_04d4cd0008e41d 8-9,14,23,25,61,75-83,93-95,97,105,109-130
+packages/attachment/attachment/src/types.ts
+  h_04d4cd0008e41d 3,10,24-31,69-96
+packages/attachment/attachment/tests/index.spec.ts
+  h_04d4cd0008e41d 6,10-11,54-88,138-150
+packages/boot/app-boot/package.json
+  h_04d4cd0008e41d 4
+packages/boot/cmdline/package.json
+  h_04d4cd0008e41d 4
+packages/bundle/base/package.json
+  h_04d4cd0008e41d 4
+packages/bundle/headless/package.json
+  h_04d4cd0008e41d 4
+packages/bundle/web-app/package.json
+  h_04d4cd0008e41d 4
+packages/client/connection/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/client/connection/README.md
+  h_04d4cd0008e41d 26
+packages/client/connection/README.zh.md
+  h_04d4cd0008e41d 26
+packages/client/connection/package.json
+  h_04d4cd0008e41d 4
+packages/client/connection/src/http-bridge.ts
+  h_04d4cd0008e41d 9-10,12
+packages/client/connection/src/index.ts
+  h_04d4cd0008e41d 60
+packages/client/connection/tests/node-half.host.spec.ts
+  h_04d4cd0008e41d 14,94-98
+packages/client/hmr/package.json
+  h_04d4cd0008e41d 4
+packages/client/locale/package.json
+  h_04d4cd0008e41d 4
+packages/client/modules/package.json
+  h_04d4cd0008e41d 4
+packages/client/runtime/package.json
+  h_04d4cd0008e41d 4
+packages/client/runtime/src/client/contract/sessions-port.ts
+  h_04d4cd0008e41d 35-37,39
+packages/client/runtime/src/client/sessions/manager.ts
+  h_04d4cd0008e41d 537,540
+packages/client/runtime/src/client/sessions/service.ts
+  h_04d4cd0008e41d 485
+packages/client/runtime/src/client/workspaces/service.ts
+  h_04d4cd0008e41d 56,79-81,110
+packages/client/runtime/tests/workspaces-service.client.spec.ts
+  h_04d4cd0008e41d 248-249,251,258,266,295
+packages/client/ui-agent-preset/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-attachment/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-brand-official/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-commands/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-conversation/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/client/ui-conversation/README.md
+  h_04d4cd0008e41d 17
+packages/client/ui-conversation/README.zh.md
+  h_04d4cd0008e41d 27
+packages/client/ui-conversation/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-conversation/src/client/locales.ts
+  h_04d4cd0008e41d 69-70,73
+packages/client/ui-conversation/src/client/skeleton/PermissionSelect.tsx
+  h_04d4cd0008e41d 18-19,24-25,33-34,40-41,45,49-53,60-61,95,141,149
+packages/client/ui-conversation/tests/input-bar.client.spec.tsx
+  h_04d4cd0008e41d 1509-1510,1515,1519,1526,1537,1540-1541,1551,1555,1567,1574,1578,1581,1592,1599,1610
+packages/client/ui-deliverables/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-directory-picker-browse/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-directory-picker-native/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-goal/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-input-trigger/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-jobs/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-layout/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-message-feedback/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-model-selection/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-permission-presets/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/client/ui-permission-presets/README.md
+  h_04d4cd0008e41d 5,7
+packages/client/ui-permission-presets/README.zh.md
+  h_04d4cd0008e41d 5,7
+packages/client/ui-permission-presets/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-permission-presets/src/client/PermissionRow.tsx
+  h_04d4cd0008e41d 15,61-62,75
+packages/client/ui-permission-presets/src/client/index.ts
+  h_04d4cd0008e41d 13-14,59
+packages/client/ui-permission-presets/src/client/locales.ts
+  h_04d4cd0008e41d 9-10,13,34-35,38
+packages/client/ui-permission-presets/src/client/presentation.ts
+  h_04d4cd0008e41d 18,20-21
+packages/client/ui-permission-presets/src/client/settings-store.ts
+  h_04d4cd0008e41d 23,124
+packages/client/ui-permission-presets/tests/browser-plugin.client.spec.ts
+  h_04d4cd0008e41d 131,140,142
+packages/client/ui-permission-presets/tests/permission-presets-row.client.spec.tsx
+  h_04d4cd0008e41d 9-10,50,79,89,92-93,97,106-107,109-114,140,161,163,165
+packages/client/ui-permission-presets/tests/settings-store.client.spec.ts
+  h_04d4cd0008e41d 50
+packages/client/ui-plan/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-primitives/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-reference/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-renderer/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-settings-general/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-settings-models/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-settings-plugin-inventory/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-settings-plugins/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-settings/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-sidebar/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-skill/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-slots/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-subagent/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-theme/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-tool/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-trajectory/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-user-questions/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-workflow-run/package.json
+  h_04d4cd0008e41d 4
+packages/client/ui-workspace/package.json
+  h_04d4cd0008e41d 4
+packages/client/web/package.json
+  h_04d4cd0008e41d 4
+packages/code-runtime/code-runtime-python/package.json
+  h_04d4cd0008e41d 4
+packages/code-runtime/code-runtime-worker-thread/package.json
+  h_04d4cd0008e41d 4
+packages/code-runtime/code-runtime/package.json
+  h_04d4cd0008e41d 4
+packages/compaction/command-compact/package.json
+  h_04d4cd0008e41d 4
+packages/compaction/compaction-basic/package.json
+  h_04d4cd0008e41d 4
+packages/compaction/compaction-tool-result-pruner/package.json
+  h_04d4cd0008e41d 4
+packages/compaction/compaction/package.json
+  h_04d4cd0008e41d 4
+packages/context/agent-instructions/package.json
+  h_04d4cd0008e41d 4
+packages/context/file-reference-local/package.json
+  h_04d4cd0008e41d 4
+packages/context/file-reference/package.json
+  h_04d4cd0008e41d 4
+packages/context/session-reference/package.json
+  h_04d4cd0008e41d 4
+packages/context/time-context/package.json
+  h_04d4cd0008e41d 4
+packages/context/tmux-context/package.json
+  h_04d4cd0008e41d 4
+packages/core/agent-default-model/package.json
+  h_04d4cd0008e41d 4
+packages/core/agent-loop/package.json
+  h_04d4cd0008e41d 4
+packages/core/agent-tool-presentation/package.json
+  h_04d4cd0008e41d 4
+packages/core/agent/package.json
+  h_04d4cd0008e41d 4
+packages/core/scope/package.json
+  h_04d4cd0008e41d 4
+packages/core/session/package.json
+  h_04d4cd0008e41d 4
+packages/core/system-prompt/package.json
+  h_04d4cd0008e41d 4
+packages/core/tools/package.json
+  h_04d4cd0008e41d 4
+packages/credentials/authorization/package.json
+  h_04d4cd0008e41d 4
+packages/credentials/credentials-local/package.json
+  h_04d4cd0008e41d 4
+packages/credentials/credentials/package.json
+  h_04d4cd0008e41d 4
+packages/e2b/e2b/package.json
+  h_04d4cd0008e41d 4
+packages/e2b/fs-e2b/package.json
+  h_04d4cd0008e41d 4
+packages/e2b/subprocess-e2b/package.json
+  h_04d4cd0008e41d 4
+packages/examples/acp-demo/package.json
+  h_04d4cd0008e41d 4
+packages/examples/agent-spine-demo/package.json
+  h_04d4cd0008e41d 4
+packages/examples/jsonrpc-demo/package.json
+  h_04d4cd0008e41d 4
+packages/experimental/agent-team/package.json
+  h_04d4cd0008e41d 4
+packages/experimental/tool-agent-team/package.json
+  h_04d4cd0008e41d 4
+packages/extensions/cordis-client-runner/package.json
+  h_04d4cd0008e41d 4
+packages/extensions/cordis-host-runner/package.json
+  h_04d4cd0008e41d 4
+packages/extensions/tool-cordis/package.json
+  h_04d4cd0008e41d 4
+packages/extensions/tool-cordis/src/api-catalog.ts
+  h_04d4cd0008e41d 453-455,459,461,467,470-475,3474,3484-3491,3618,3840-3843,3846,3956-3959
+packages/extensions/ui-cordis/package.json
+  h_04d4cd0008e41d 4
+packages/feedback/command-feedback/package.json
+  h_04d4cd0008e41d 4
+packages/feedback/message-feedback/package.json
+  h_04d4cd0008e41d 4
+packages/fs/fs-local/package.json
+  h_04d4cd0008e41d 4
+packages/fs/fs-observation-policy/package.json
+  h_04d4cd0008e41d 4
+packages/fs/fs-sandbox/package.json
+  h_04d4cd0008e41d 4
+packages/fs/fs/package.json
+  h_04d4cd0008e41d 4
+packages/fs/tool-fs-search/package.json
+  h_04d4cd0008e41d 4
+packages/fs/tool-fs/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/fs/tool-fs/README.md
+  h_04d4cd0008e41d 17,35,41,102,130,158,174
+packages/fs/tool-fs/README.zh.md
+  h_04d4cd0008e41d 5,17,35,41,102,130,158,174
+packages/fs/tool-fs/package.json
+  h_04d4cd0008e41d 4
+packages/fs/tool-fs/src/read-image.ts
+  h_04d4cd0008e41d 2,4-7,30-52,62-66,102,104,115-117,123-124,126,130-140,144,149-150,172-174,184,238-249,267-269
+packages/fs/tool-fs/tests/read-image.spec.ts
+  h_04d4cd0008e41d 16,125,131,173-174,444-457,511-557
+packages/fs/tool-str-replace-editor/package.json
+  h_04d4cd0008e41d 4
+packages/goal/command-goal/package.json
+  h_04d4cd0008e41d 4
+packages/goal/goal-round-driver/package.json
+  h_04d4cd0008e41d 4
+packages/goal/goal/package.json
+  h_04d4cd0008e41d 4
+packages/goal/tool-goal/package.json
+  h_04d4cd0008e41d 4
+packages/guard/repeat-tool-reminder/package.json
+  h_04d4cd0008e41d 4
+packages/guard/timeout-policy/package.json
+  h_04d4cd0008e41d 4
+packages/hooks/hook-protocol/package.json
+  h_04d4cd0008e41d 4
+packages/hooks/hooks-claude-code/package.json
+  h_04d4cd0008e41d 4
+packages/hooks/hooks-codex/package.json
+  h_04d4cd0008e41d 4
+packages/host/apiproxy/package.json
+  h_04d4cd0008e41d 4,81
+packages/host/apiproxy/src/api-proxy.ts
+  h_04d4cd0008e41d 17,446,2110,2164-2165
+packages/host/apiproxy/src/api/sessions.ts
+  h_04d4cd0008e41d 265
+packages/host/apiproxy/tests/api-proxy-cold.spec.ts
+  h_04d4cd0008e41d 12
+packages/host/apiproxy/tests/api-proxy-models.spec.ts
+  h_04d4cd0008e41d 156,202,216,218
+packages/host/apiproxy/tests/rpc-schemas.spec.ts
+  h_04d4cd0008e41d 196
+packages/host/directory-picker-auto/package.json
+  h_04d4cd0008e41d 4
+packages/host/directory-picker-browse/package.json
+  h_04d4cd0008e41d 4
+packages/host/directory-picker-native/package.json
+  h_04d4cd0008e41d 4
+packages/host/directory-picker/package.json
+  h_04d4cd0008e41d 4
+packages/host/frontend-static/package.json
+  h_04d4cd0008e41d 4
+packages/host/plugin-inventory/package.json
+  h_04d4cd0008e41d 4
+packages/host/webserver/package.json
+  h_04d4cd0008e41d 4
+packages/identity/anonymous-user-id/package.json
+  h_04d4cd0008e41d 4
+packages/interaction/commands/package.json
+  h_04d4cd0008e41d 4
+packages/interaction/commands/tests/commands.spec.ts
+  h_04d4cd0008e41d 486-491,594-596
+packages/interaction/permission-presets/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/interaction/permission-presets/README.md
+  h_04d4cd0008e41d 7,9,13,17,28
+packages/interaction/permission-presets/README.zh.md
+  h_04d4cd0008e41d 7,9,13,17,28
+packages/interaction/permission-presets/package.json
+  h_04d4cd0008e41d 4
+packages/interaction/permission-presets/src/index.ts
+  h_04d4cd0008e41d 45,48,50,72,151,164-165,231-232,289,305,392,396,399,425,438
+packages/interaction/permission-presets/tests/permission-presets.spec.ts
+  h_04d4cd0008e41d 134,157,200
+packages/interaction/tool-ask-user/package.json
+  h_04d4cd0008e41d 4
+packages/interaction/user-approval/package.json
+  h_04d4cd0008e41d 4
+packages/interaction/user-questions/package.json
+  h_04d4cd0008e41d 4
+packages/jobs/jobs-local/package.json
+  h_04d4cd0008e41d 4
+packages/jobs/jobs/package.json
+  h_04d4cd0008e41d 4
+packages/jobs/tool-jobs/package.json
+  h_04d4cd0008e41d 4
+packages/llm/llm-deepseek/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/llm/llm-deepseek/README.md
+  h_04d4cd0008e41d 23-32,46-47,53,55,57-63,73,77,89,104,112,142
+packages/llm/llm-deepseek/README.zh.md
+  h_04d4cd0008e41d 23-32,46-47,53,55,57-63,73,77,89,104,112,142
+packages/llm/llm-deepseek/package.json
+  h_04d4cd0008e41d 4,36-37,42,54-55,60
+packages/llm/llm-deepseek/src/adapter.ts
+  h_04d4cd0008e41d 11,13,17,23-29,31,34-37,40,56-61,90-105,125-126,135-160,162,177-301,355-356,359,379-386,390,418-425,429-436,518,534-601,603-605,607-619,622-664
+packages/llm/llm-deepseek/src/file-id.ts
+  h_04d4cd0008e41d 1-27
+packages/llm/llm-deepseek/src/file-store.ts
+  h_04d4cd0008e41d 1-331
+packages/llm/llm-deepseek/src/files-api.ts
+  h_04d4cd0008e41d 1-257
+packages/llm/llm-deepseek/src/index.ts
+  h_04d4cd0008e41d 25-35,37-38,46-56,58-59,64-71,91-92,123-142,154-156,168-177,227-239,249-258,297-355,370-381
+packages/llm/llm-deepseek/src/serialize.ts
+  h_04d4cd0008e41d 4,9,11,16,32-44,47-51,53-64,126-138,140-153,155,157,163-165,174-175,178,192,278,283,297-298,314,323-324,329,331,392-393,405-418,423
+packages/llm/llm-deepseek/src/types.ts
+  h_04d4cd0008e41d 44-51,56-58
+packages/llm/llm-deepseek/src/upload-index.ts
+  h_04d4cd0008e41d 1-225
+packages/llm/llm-deepseek/tests/adapter.e2e.ts
+  h_04d4cd0008e41d 1,5,8,10,14-15,35-39,43,45-47,50-69,76-80,83-88,108,138-180
+packages/llm/llm-deepseek/tests/adapter.spec.ts
+  h_04d4cd0008e41d 6-7,9,11,22,56,64,80-152,187,190-196,216-217,221-226,228-870,1121-1134,1398-1401,1432-1435,1746-1762,1822-1871,1873-1876,1882-1883,2029-2048
+packages/llm/llm-deepseek/tests/dynamic-config.spec.ts
+  h_04d4cd0008e41d 7,11-12,55-73,188,205,210,212
+packages/llm/llm-deepseek/tests/file-store.spec.ts
+  h_04d4cd0008e41d 1-496
+packages/llm/llm-deepseek/tests/files-api.spec.ts
+  h_04d4cd0008e41d 1-260
+packages/llm/llm-deepseek/tests/mock-server.ts
+  h_04d4cd0008e41d 16-17,41-43,45-46,48-79,82-145,156
+packages/llm/llm-deepseek/tests/serialize.spec.ts
+  h_04d4cd0008e41d 2-3,12-14,21-26,28,36-78,352-353,359,364,370-371,377-383,387,390-409,413-416,420-427,451-466,471-472,492,514,544,546-550,553-557,564-566,571-572,576,582-583,586-613,617,622,624,628,635-637,641,645,648,652-655,659,665,669
+packages/llm/llm-deepseek/tests/upload-index.spec.ts
+  h_04d4cd0008e41d 1-181
+packages/llm/llm-deepseek/tsconfig.json
+  h_04d4cd0008e41d 23-34
+packages/llm/llm-pi-ai/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/llm/llm-pi-ai/README.md
+  h_04d4cd0008e41d 23-25,126,176,180,202,210
+packages/llm/llm-pi-ai/README.zh.md
+  h_04d4cd0008e41d 23-25,127,177,181,203,211
+packages/llm/llm-pi-ai/package.json
+  h_04d4cd0008e41d 4
+packages/llm/llm-pi-ai/src/adapter.ts
+  h_04d4cd0008e41d 53,288-314,318-325,363-366
+packages/llm/llm-pi-ai/src/config.ts
+  h_04d4cd0008e41d 49-51,55-58,170-173,191-194,327-328,408-415,448-449
+packages/llm/llm-pi-ai/src/context.ts
+  h_04d4cd0008e41d 7,9-15,18,50,59-60,63-64,70,87-115,196,204,211,215,223-226,229-241,245,263,271
+packages/llm/llm-pi-ai/tests/adapter.spec.ts
+  h_04d4cd0008e41d 3,7-8,80-103,241-258,281-288,308-311
+packages/llm/llm-pi-ai/tests/config.spec.ts
+  h_04d4cd0008e41d 67-89
+packages/llm/llm-pi-ai/tests/context.spec.ts
+  h_04d4cd0008e41d 2-8,22-49,149,167-170,202,232-235,262,268-275,277-302,312-321,324-327,335,341-344,355,362,389-390,394,413
+packages/llm/llm-pi-ai/tests/convert.spec.ts
+  h_04d4cd0008e41d 2-3,46-68,102-104,112,114-118,123,138-140,164,173
+packages/llm/llm-pi-ai/tests/provider-apis.e2e.ts
+  h_04d4cd0008e41d 4,8-9,93-110
+packages/llm/llm-retry/package.json
+  h_04d4cd0008e41d 4
+packages/llm/llm/README.i18n.yaml
+  h_04d4cd0008e41d 5-6
+packages/llm/llm/README.md
+  h_04d4cd0008e41d 28,41,58-60
+packages/llm/llm/README.zh.md
+  h_04d4cd0008e41d 28,41,58-60
+packages/llm/llm/package.json
+  h_04d4cd0008e41d 4
+packages/llm/llm/src/content.ts
+  h_04d4cd0008e41d 5,11-29,48-69,72-75,77,108-142,156-177,179-187,189-194
+packages/llm/llm/src/index.ts
+  h_04d4cd0008e41d 32,163-164,177-184,238-253,659-668,774,776-783,812,826-828,847-849,861-866,900,905-918,930-937,991,1019-1025
+packages/llm/llm/tests/content.spec.ts
+  h_04d4cd0008e41d 3-10,29-33,102-185
+packages/llm/llm/tests/service.spec.ts
+  h_04d4cd0008e41d 3,17,920-1002
+packages/llm/token-meter/package.json
+  h_04d4cd0008e41d 4
+packages/lsp/lsp-stdio/package.json
+  h_04d4cd0008e41d 4
+packages/lsp/lsp/package.json
+  h_04d4cd0008e41d 4
+packages/lsp/tool-lsp/package.json
+  h_04d4cd0008e41d 4
+packages/mcp/mcp-client/package.json
+  h_04d4cd0008e41d 4
+packages/mcp/mcp-client/tests/mcp-client.spec.ts
+  h_04d4cd0008e41d 92,98-99
+packages/plan/plan-mode/package.json
+  h_04d4cd0008e41d 4
+packages/preset/agent-presets/package.json
+  h_04d4cd0008e41d 4
+packages/preset/persona/package.json
+  h_04d4cd0008e41d 4
+packages/runtime-diagnostics/invariants/package.json
+  h_04d4cd0008e41d 4
+packages/sandbox/sandbox-local/package.json
+  h_04d4cd0008e41d 4
+packages/sandbox/sandbox-policy/package.json
+  h_04d4cd0008e41d 4
+packages/sandbox/sandbox-windows-acl/package.json
+  h_04d4cd0008e41d 4
+packages/sandbox/sandbox/package.json
+  h_04d4cd0008e41d 4
+packages/schedule/schedule/package.json
+  h_04d4cd0008e41d 4
+packages/sdk/client/package.json
+  h_04d4cd0008e41d 4
+packages/sdk/protocol/package.json
+  h_04d4cd0008e41d 4
+packages/sdk/server/package.json
+  h_04d4cd0008e41d 4
+packages/session-query/session-log-export/package.json
+  h_04d4cd0008e41d 4
+packages/session-query/session-query-sqlite/package.json
+  h_04d4cd0008e41d 4
+packages/session-query/session-query/package.json
+  h_04d4cd0008e41d 4
+packages/session-query/tool-session-query/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-checkpoint-policy/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-persistence-jsonl/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-persistence-sqlite/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-persistence/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-projection-cache/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-projection/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-stats/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-telemetry-otel/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-telemetry/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-title-all-prompts-llm/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-title-first-prompt-llm/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-title-llm/package.json
+  h_04d4cd0008e41d 4
+packages/session/session-title/package.json
+  h_04d4cd0008e41d 4
+packages/settings/settings-file/package.json
+  h_04d4cd0008e41d 4
+packages/settings/settings/package.json
+  h_04d4cd0008e41d 4
+packages/shell/bash-local/package.json
+  h_04d4cd0008e41d 4
+packages/shell/bash-sandbox/package.json
+  h_04d4cd0008e41d 4
+packages/shell/pwsh-local/package.json
+  h_04d4cd0008e41d 4
+packages/shell/pwsh-sandbox/package.json
+  h_04d4cd0008e41d 4
+packages/shell/shell-env/package.json
+  h_04d4cd0008e41d 4
+packages/shell/shell/package.json
+  h_04d4cd0008e41d 4
+packages/shell/tool-bash-persistent/package.json
+  h_04d4cd0008e41d 4
+packages/shell/tool-bash/package.json
+  h_04d4cd0008e41d 4
+packages/shell/tool-pwsh-persistent/package.json
+  h_04d4cd0008e41d 4
+packages/shell/tool-pwsh/package.json
+  h_04d4cd0008e41d 4
+packages/skill/skill-badge/package.json
+  h_04d4cd0008e41d 4
+packages/skill/skill-filesystem/package.json
+  h_04d4cd0008e41d 4
+packages/skill/skill/package.json
+  h_04d4cd0008e41d 4
+packages/skill/tool-skill/package.json
+  h_04d4cd0008e41d 4
+packages/spill/spill-local/package.json
+  h_04d4cd0008e41d 4
+packages/spill/spill-policy/package.json
+  h_04d4cd0008e41d 4
+packages/spill/spill/package.json
+  h_04d4cd0008e41d 4
+packages/storage/storage-domain/package.json
+  h_04d4cd0008e41d 4
+packages/storage/storage-json/package.json
+  h_04d4cd0008e41d 4
+packages/storage/storage-sqlite/package.json
+  h_04d4cd0008e41d 4
+packages/storage/storage/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/subagent-acp/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/subagent-claude-code/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/subagent-codex/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/subagent-dsh-sdk/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/subagent-fork-in-process/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/subagent-in-process-driver/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/subagent-spawn-in-process/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/subagent/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/tool-subagent-control/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/tool-subagent-report/package.json
+  h_04d4cd0008e41d 4
+packages/subagent/tool-subagent/package.json
+  h_04d4cd0008e41d 4
+packages/subprocess/subprocess-local/package.json
+  h_04d4cd0008e41d 4
+packages/subprocess/subprocess/package.json
+  h_04d4cd0008e41d 4
+packages/terminal/terminal-bash/package.json
+  h_04d4cd0008e41d 4
+packages/terminal/terminal/package.json
+  h_04d4cd0008e41d 4
+packages/terminal/tool-terminal/package.json
+  h_04d4cd0008e41d 4
+packages/test-support/acp-snapshot/package.json
+  h_04d4cd0008e41d 4
+packages/test-support/acp-snapshot/tests/harness.spec.ts
+  h_04d4cd0008e41d 708,710,728,732,751,755
+packages/test-support/agent-loop-testkit/package.json
+  h_04d4cd0008e41d 4
+packages/test-support/client-runtime/package.json
+  h_04d4cd0008e41d 4
+packages/test-support/llm-mock-server/package.json
+  h_04d4cd0008e41d 4
+packages/test-support/llm-replay/package.json
+  h_04d4cd0008e41d 4
+packages/test-support/loader-smoke/package.json
+  h_04d4cd0008e41d 4
+packages/todo/tool-todo/package.json
+  h_04d4cd0008e41d 4
+packages/typert/generator/package.json
+  h_04d4cd0008e41d 4
+packages/typert/loader/package.json
+  h_04d4cd0008e41d 4
+packages/typert/protocol/package.json
+  h_04d4cd0008e41d 4
+packages/typert/registry/package.json
+  h_04d4cd0008e41d 4
+packages/util/atomic-write/package.json
+  h_04d4cd0008e41d 4
+packages/util/brand/package.json
+  h_04d4cd0008e41d 4
+packages/util/home-paths/package.json
+  h_04d4cd0008e41d 4
+packages/util/launch-environment/package.json
+  h_04d4cd0008e41d 4
+packages/util/native-command/package.json
+  h_04d4cd0008e41d 4
+packages/util/output-retention/package.json
+  h_04d4cd0008e41d 4
+packages/util/timeout/package.json
+  h_04d4cd0008e41d 4
+packages/web/tool-web/package.json
+  h_04d4cd0008e41d 4
+packages/web/web-fetch-http/package.json
+  h_04d4cd0008e41d 4
+packages/web/web-search-deepseek/package.json
+  h_04d4cd0008e41d 4
+packages/web/web-search-exa/package.json
+  h_04d4cd0008e41d 4
+packages/web/web-search-perplexity/package.json
+  h_04d4cd0008e41d 4
+packages/web/web/package.json
+  h_04d4cd0008e41d 4
+packages/workflow/tool-ralph/package.json
+  h_04d4cd0008e41d 4
+packages/workflow/tool-workflow/package.json
+  h_04d4cd0008e41d 4
+packages/workflow/workflow-worker-thread/package.json
+  h_04d4cd0008e41d 4
+packages/workflow/workflow/package.json
+  h_04d4cd0008e41d 4
+packages/workspace/workspace/package.json
+  h_04d4cd0008e41d 4
+pnpm-lock.yaml
+  h_04d4cd0008e41d 5534-5536,5540-5542,5546-5548,8759-8761
+python/sdk-runtime/package.json
+  h_04d4cd0008e41d 20
+scripts/gen-cordis-catalog.ts
+  h_04d4cd0008e41d 298-299
+scripts/gen-tool-catalog.ts
+  h_04d4cd0008e41d 317,322,328
+scripts/type-equiv.manifest.json
+  h_04d4cd0008e41d 931-940
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "e3269677511b65f9f7867164f7f519aa092e39b3",
+  "prompts": {},
+  "humans": {
+    "h_04d4cd0008e41d": {
+      "author": "aka-danielZhang <424011753@qq.com>"
+    }
+  }
+}
