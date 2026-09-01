@@ -12,13 +12,13 @@ Status: implemented
 
 用户在某条提供方／模型路由上最后一次显式选择的等级，被记忆进新的 Settings 命名空间 `agent-model-efforts`（条目列表；每条路由至多一条），由 `AgentDefaultModelConfig` 与既有 `agent-default-model` 命名空间并列持有——切换默认选择永远不会覆盖某条路由的记忆。服务暴露 `recallEffort(provider, model)` 与 `rememberEffort(provider, model, effort?)`；未挂载设置提供方时两者均为空操作，组合配置项保持当前。
 
-ApiProxy 的 `session.selectModel` 持有策略：
+Session Controller 的 `session.selectModel` 持有策略：
 
 - 在**不同**路由上的裸选（`reasoningEffort` 缺席）咨询记忆；被记住的等级先对照模型实时的 `reasoning.efforts` 校验（记忆可能比当初提供它的声明活得更久），通过则使用，否则丢弃并清除、照旧物化适配器默认值。
 - 在**相同**路由上的裸选是显式的 provider-default 手势（等级面板的 Default 行）；它清除该路由的记忆。
 - 线上显式声明的等级被校验、应用并记住。被咨询过的裸选从不写入。
 
-`/model` 弹窗不再为跨路由选择在客户端物化 `defaultEffort`（`selectionOf` 不声明等级），两个入口因此都遵从同一个 Host 决策；同路由选择仍重新声明所持等级。记忆读写经 `ApiProxyDefaults.recallModelEffort`／`rememberModelEffort`（与 `saveDefaultModelSelection` 一样可选），未挂记忆的部署保持原行为，carrier 测试也保持可注入。记忆存储失败只记日志并吞掉——切换已经作用于它的会话。
+`/model` 弹窗不再为跨路由选择在客户端物化 `defaultEffort`（`selectionOf` 不声明等级），两个入口因此都遵从同一个 Host 决策；同路由选择仍重新声明所持等级。记忆读写经 `ctx.agentDefaultModel.recallEffort`／`rememberEffort`。记忆存储失败只记日志并吞掉——切换已经作用于它的会话。
 
 ## Alternatives considered
 
@@ -32,7 +32,7 @@ ApiProxy 的 `session.selectModel` 持有策略：
 
 ## Consequences
 
-经任一选择入口的 A→B→A 会恢复 A 最后显式选择的等级，跨会话、跨 Host 重启，桌面端口漂移无关紧要，因为记忆在 host 侧。陈旧条目在咨询时自愈（丢弃并清除）而非让切换失败，与别处严格的禁止钳制校验一致。代价：存储文档多一个 Settings 分节、裸选路径多一次 `resolveModelInfo` 咨询、记忆按调过的路由各存一条且不自动清理。Web e2e（`declared-reasoning`）经真实 UI 钉住恢复与陈旧丢弃；apiproxy 单测钉住写入策略（显式记录、同路由清除、被咨询的裸选不写）。
+经任一选择入口的 A→B→A 会恢复 A 最后显式选择的等级，跨会话、跨 Host 重启，桌面端口漂移无关紧要，因为记忆在 host 侧。陈旧条目在咨询时自愈（丢弃并清除）而非让切换失败，与别处严格的禁止钳制校验一致。代价：存储文档多一个 Settings 分节、裸选路径多一次 `resolveModelInfo` 咨询、记忆按调过的路由各存一条且不自动清理。Web e2e（`declared-reasoning`）经真实 UI 钉住恢复与陈旧丢弃；session-controller 单测钉住写入策略（显式记录、同路由清除、被咨询的裸选不写）。
 
 ## Related
 

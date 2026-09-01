@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  CallId,
+  ToolCallId,
   createAssistantMessage,
   createToolResultMessage,
   createUserMessage,
@@ -37,8 +37,8 @@ describe('hierarchical message planner', () => {
   })
 
   it('keeps tool calls and results in one indivisible unit', () => {
-    const callA = CallId('call-a')
-    const callB = CallId('call-b')
+    const callA = ToolCallId('call-a')
+    const callB = ToolCallId('call-b')
     const request = user('run both')
     const assistant = createAssistantMessage({
       content: [
@@ -104,7 +104,7 @@ describe('hierarchical message planner', () => {
       .toThrow(OversizedCompactionUnitError)
     expect(() => planMessageChunks([message], 0, () => 1)).toThrow(/positive integer/)
 
-    const call = CallId('missing')
+    const call = ToolCallId('missing')
     const orphan = createToolResultMessage({
       callId: call,
       content: [{ type: 'text', text: 'orphan' }],

@@ -21,6 +21,7 @@ import type {
   ToolSchema,
 } from '@deepseek-ai/dsh-llm'
 import { Session, SessionId } from '@deepseek-ai/dsh-session'
+import SessionProjectionRegistry from '@deepseek-ai/dsh-session-projection'
 import TokenMeter from '@deepseek-ai/dsh-token-meter'
 import { AttachmentId } from '@deepseek-ai/dsh-attachment'
 
@@ -154,6 +155,7 @@ function fixture(options: {
 } = {}) {
   const ctx = new Context()
   void new LlmRuntime(ctx)
+  new SessionProjectionRegistry(ctx)
   void new TokenMeter(ctx)
   const adapter = new SummaryAdapter(
     options.contextWindow === undefined ? 1800 : options.contextWindow,
@@ -185,6 +187,7 @@ function fixture(options: {
 function noCapacityFixture(overflows = 0, failureCode?: string) {
   const ctx = new Context()
   void new LlmRuntime(ctx)
+  new SessionProjectionRegistry(ctx)
   void new TokenMeter(ctx)
   const adapter = new SummaryAdapter(
     undefined,
@@ -471,6 +474,7 @@ describe('hierarchical compaction fallback', () => {
   it('fails an incompatible stage output reserve before streaming hierarchy calls', async () => {
     const ctx = new Context()
     void new LlmRuntime(ctx)
+    new SessionProjectionRegistry(ctx)
     void new TokenMeter(ctx)
     const adapter = new SummaryAdapter(1000)
     ctx.llm.registerAdapter([PROVIDER], adapter)
@@ -494,6 +498,7 @@ describe('hierarchical compaction fallback', () => {
   it('does not require an unused reduce reserve for a single map result', async () => {
     const ctx = new Context()
     void new LlmRuntime(ctx)
+    new SessionProjectionRegistry(ctx)
     void new TokenMeter(ctx)
     const adapter = new SummaryAdapter(1000)
     ctx.llm.registerAdapter([PROVIDER], adapter)
@@ -520,6 +525,7 @@ describe('hierarchical compaction fallback', () => {
   it('uses model-specific hierarchy and one-shot caps', async () => {
     const ctx = new Context()
     void new LlmRuntime(ctx)
+    new SessionProjectionRegistry(ctx)
     void new TokenMeter(ctx)
     const adapter = new SummaryAdapter(2400)
     ctx.llm.registerAdapter([PROVIDER], adapter)

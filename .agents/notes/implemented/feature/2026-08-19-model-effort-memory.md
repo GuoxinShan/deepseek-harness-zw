@@ -12,13 +12,13 @@ Selecting a model in the Web composer reset its reasoning effort to the model's 
 
 The effort the user last explicitly chose on one provider/model route is remembered in a new Settings namespace, `agent-model-efforts` (an entry list; at most one entry per route), owned by `AgentDefaultModelConfig` beside the existing `agent-default-model` namespace — switching the default selection never overwrites a route's memory. The service exposes `recallEffort(provider, model)` and `rememberEffort(provider, model, effort?)`; without a settings provider both stay no-ops with the composition entry current.
 
-`session.selectModel` in ApiProxy owns the policy:
+`session.selectModel` in the Session Controller owns the policy:
 
 - A bare pick (`reasoningEffort` absent) on a **different** route consults the memory; a remembered level is validated against the model's live `reasoning.efforts` (memory can outlive the declaration that offered it) and used, else dropped-and-cleared and the adapter default materializes as before.
 - A bare pick on the **same** route is the explicit provider-default gesture (the effort pane's Default row); it clears that route's memory.
 - A wire-stated effort is validated, applied, and remembered. A consulted bare pick never writes.
 
-The `/model` popup no longer materializes `defaultEffort` client-side for a cross-route pick (`selectionOf` states no effort), so both entries defer to the same Host decision; a same-route pick still re-asserts the held effort. Memory writes ride `ApiProxyDefaults.recallModelEffort`/`rememberModelEffort` (optional, like `saveDefaultModelSelection`), so deployments without the memory keep the previous behavior and carrier tests stay injectable. A memory-storage failure is logged and swallowed — the switch already applies to its session.
+The `/model` popup no longer materializes `defaultEffort` client-side for a cross-route pick (`selectionOf` states no effort), so both entries defer to the same Host decision; a same-route pick still re-asserts the held effort. Memory writes ride `ctx.agentDefaultModel.recallEffort`/`rememberEffort`. A memory-storage failure is logged and swallowed — the switch already applies to its Session.
 
 ## Alternatives considered
 
@@ -32,7 +32,7 @@ The `/model` popup no longer materializes `defaultEffort` client-side for a cros
 
 ## Consequences
 
-A→B→A through either selection entry restores A's last explicitly chosen level, across sessions and Host restarts, with the desktop's port churn irrelevant because the memory is host-side. Stale entries self-heal at consult time (dropped and cleared) instead of failing the switch, matching the strict no-clamping validation elsewhere. Cost: one more Settings section in the stored document, one extra `resolveModelInfo` consult on the bare-switch path, and the memory grows one entry per tuned route without automatic pruning. The Web e2e (`declared-reasoning`) pins the restore and the stale-drop through the real UI; the apiproxy unit tests pin the write policy (explicit records, same-route clears, consulted bare picks write nothing).
+A→B→A through either selection entry restores A's last explicitly chosen level, across sessions and Host restarts, with the desktop's port churn irrelevant because the memory is host-side. Stale entries self-heal at consult time (dropped and cleared) instead of failing the switch, matching the strict no-clamping validation elsewhere. Cost: one more Settings section in the stored document, one extra `resolveModelInfo` consult on the bare-switch path, and the memory grows one entry per tuned route without automatic pruning. The Web e2e (`declared-reasoning`) pins the restore and the stale-drop through the real UI; the session-controller unit tests pin the write policy (explicit records, same-route clears, consulted bare picks write nothing).
 
 ## Related
 

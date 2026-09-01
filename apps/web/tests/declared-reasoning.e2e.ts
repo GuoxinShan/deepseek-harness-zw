@@ -9,17 +9,17 @@ import { join } from 'node:path'
 import type { Browser, Page } from 'playwright'
 import { chromium } from 'playwright'
 import { afterAll, beforeAll, describe, expect, it, onTestFailed } from 'vitest'
-import { settingsNamespace } from '@deepseek-ai/dsh-settings'
 import {
   assertFixtureInventory, captureStableAria, compareOrRefreshGolden,
   launchWebScaffold, watchConsole, webSnapshotMode, type WebScaffold,
 } from './scaffold.ts'
+import { AGENT_MODEL_EFFORTS_SETTINGS_NAMESPACE } from '@deepseek-ai/dsh-agent-default-model'
 import { ZH_BROWSER_LOCALE, connectFreshWorkspaceZh, saveFailureShot } from './support.ts'
 
 /** Starts the shipped default on this scenario's declared reasoning model. */
 const OVERLAY = fileURLToPath(new URL('./declared-reasoning.overlay.yml', import.meta.url))
-const SNAPSHOT_DIR = fileURLToPath(new URL('./snapshots/declared-reasoning', import.meta.url))
-const UI_EXPECTED = fileURLToPath(new URL('./snapshots/declared-reasoning/ui.expected.md', import.meta.url))
+const SNAPSHOT_DIR = fileURLToPath(new URL('./expected/declared-reasoning', import.meta.url))
+const UI_EXPECTED = fileURLToPath(new URL('./expected/declared-reasoning/ui.expected.md', import.meta.url))
 const MODE = webSnapshotMode()
 
 describe.skipIf(MODE === 'record')('web e2e: declared reasoning efforts reach the composer', () => {
@@ -34,7 +34,7 @@ describe.skipIf(MODE === 'record')('web e2e: declared reasoning efforts reach th
     // = the wire spelling dispatch would send (`max: ultra` renames; the
     // valueless `off` means "supported, send nothing"). The route sets no
     // deployment default, so the pane leads with the provider-default entry.
-    await scaffold.ctx.settings.update(settingsNamespace('llm-pi-ai'), {
+    await scaffold.ctx.settings.update('llm-pi-ai', {
       providers: {
         'acme-gateway': {
           displayName: 'Acme Gateway',
@@ -55,7 +55,7 @@ describe.skipIf(MODE === 'record')('web e2e: declared reasoning efforts reach th
     browser = await chromium.launch()
     page = await browser.newPage({ viewport: { width: 1680, height: 1000 }, locale: ZH_BROWSER_LOCALE })
     tripwire = watchConsole(page)
-    await page.goto(scaffold.baseUrl, { waitUntil: 'load' })
+    await page.goto(scaffold.authenticatedUrl, { waitUntil: 'load' })
     await page.waitForSelector('[class*="frame"]', { timeout: 30_000 })
     await connectFreshWorkspaceZh(page, scaffold.workspaceCwd)
   }, 120_000)
@@ -97,7 +97,7 @@ describe.skipIf(MODE === 'record')('web e2e: declared reasoning efforts reach th
     onTestFailed(() => saveFailureShot(page, 'web-e2e-effort-memory'))
     const trigger = page.getByRole('button', { name: /^选择模型/ })
     const settingsPath = join(scaffold.harnessHome, 'settings.yaml')
-    const memory = () => scaffold.ctx.settings.get(settingsNamespace('agent-model-efforts'))
+    const memory = () => scaffold.ctx.settings.get(AGENT_MODEL_EFFORTS_SETTINGS_NAMESPACE)
 
     // An explicit effort statement is remembered per route.
     await trigger.click()
@@ -116,7 +116,7 @@ describe.skipIf(MODE === 'record')('web e2e: declared reasoning efforts reach th
 
     // Seed what a hand edit or an older declaration would leave behind: Mini
     // remembers Max, which its current profile no longer offers.
-    await scaffold.ctx.settings.update(settingsNamespace('agent-model-efforts'), {
+    await scaffold.ctx.settings.update(AGENT_MODEL_EFFORTS_SETTINGS_NAMESPACE, {
       entries: [
         { provider: 'acme-gateway', model: 'acme-think', effort: 'max' },
         { provider: 'acme-gateway', model: 'acme-mini', effort: 'max' },
