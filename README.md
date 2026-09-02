@@ -1,3 +1,5 @@
+> **Cursor-cloud mirror.** This repository (`GuoxinShan/deepseek-harness-zw`) is a push mirror of [aka-danielZhang/deepseek-harness](https://github.com/aka-danielZhang/deepseek-harness) (`+zw`) for Cursor cloud agents. It is **not** a GitHub fork of [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness). See [docs/MIRROR.md](docs/MIRROR.md).
+
 # DeepSeek Harness
 
 English | [中文](README.zh.md)
