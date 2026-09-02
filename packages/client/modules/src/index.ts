@@ -197,6 +197,23 @@ function exactPackageSpecifier(specifier: string): string | undefined {
   return specifier.length > 0 && !specifier.includes('/') ? specifier : undefined
 }
 
+/**
+ * A scoped republish keeps the unscoped name and changes only the scope
+ * (`@deepseek-ai/dsh-client-modules` vs `@crazx/dsh-client-modules`). The
+ * graph row id stays the Loader specifier; this match only locates the
+ * owning manifest.
+ */
+function manifestOwnsLoaderPackage(manifestName: string, expectedPackageName: string): boolean {
+  if (manifestName === expectedPackageName) return true
+  if (!manifestName.startsWith('@') || !expectedPackageName.startsWith('@')) return false
+  const manifestSlash = manifestName.indexOf('/')
+  const expectedSlash = expectedPackageName.indexOf('/')
+  if (manifestSlash === -1 || expectedSlash === -1) return false
+  const manifestSuffix = manifestName.slice(manifestSlash + 1)
+  const expectedSuffix = expectedPackageName.slice(expectedSlash + 1)
+  return expectedSuffix.length > 0 && manifestSuffix === expectedSuffix
+}
+
 /** Narrow an unknown parsed JSON value to the `dsh.client` declaration, throwing on malformed fields. */
 function parseDshClient(pkgName: string, value: unknown): DshClientDeclaration | undefined {
   if (value === undefined) return undefined
@@ -776,9 +793,11 @@ export class ClientModuleRegistry extends Service {
    * Locate the manifest of the package the Loader mounts for a row. The row's
    * module location is authoritative: the specifier resolves through the same
    * Loader resolution that imported the row's host half — including any
-   * active ESM hooks — and the nearest ancestor manifest declaring the name
-   * owns the module. Tree-anchored `require` resolution remains only for
-   * runtimes without Node internals.
+   * active ESM hooks — and the nearest ancestor manifest declaring the name,
+   * or a scoped republish of the same unscoped name, owns the module. The
+   * returned `packageName` is the Loader specifier so the graph row id stays
+   * the name the composition and HTML preload list already use. Tree-anchored
+   * `require` resolution remains only for runtimes without Node internals.
    * @param loaderName - module specifier of the loader row.
    * @param baseUrl - resolution base of the tree that owns the row.
    * @returns the manifest path, or `undefined` when the name resolves to no package root.
@@ -831,8 +850,11 @@ export class ClientModuleRegistry extends Service {
       if (existsSync(candidate)) {
         try {
           const name = (JSON.parse(readFileSync(candidate, 'utf8')) as { name?: unknown }).name
-          if (typeof name === 'string' && (expectedPackageName === undefined || name === expectedPackageName)) {
-            return { path: candidate, packageName: name }
+          if (
+            typeof name === 'string'
+            && (expectedPackageName === undefined || manifestOwnsLoaderPackage(name, expectedPackageName))
+          ) {
+            return { path: candidate, packageName: expectedPackageName ?? name }
           }
         } catch {
           // An unreadable or malformed intermediate manifest cannot own the
