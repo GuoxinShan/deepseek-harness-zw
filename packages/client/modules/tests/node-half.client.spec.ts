@@ -34,13 +34,14 @@ afterEach(() => {
 function writePackage(
   packageName: string,
   metadata: Record<string, unknown> = { dsh: { client: { platform: 'web' } } },
+  options: { manifestName?: string } = {},
 ): string {
   root ??= realpathSync(mkdtempSync(join(tmpdir(), 'dsh-client-modules-')))
   const pkgRoot = join(root, 'node_modules', ...packageName.split('/'))
   const clientPath = join(pkgRoot, 'lib', 'client.js')
   mkdirSync(pkgRoot, { recursive: true })
   writeFileSync(join(pkgRoot, 'package.json'), JSON.stringify({
-    name: packageName,
+    name: options.manifestName ?? packageName,
     exports: {
       './client': './lib/client.js',
       './package.json': './package.json',
@@ -51,8 +52,12 @@ function writePackage(
 }
 
 /** Create a built package with the supplied client declaration. */
-function writeBuiltPackage(packageName: string, client: Record<string, unknown>): void {
-  const clientPath = writePackage(packageName, { dsh: { client: { platform: 'web', ...client } } })
+function writeBuiltPackage(
+  packageName: string,
+  client: Record<string, unknown>,
+  options: { manifestName?: string } = {},
+): void {
+  const clientPath = writePackage(packageName, { dsh: { client: { platform: 'web', ...client } } }, options)
   mkdirSync(dirname(clientPath), { recursive: true })
   writeFileSync(clientPath, 'module.exports = {}\n')
 }
@@ -750,6 +755,34 @@ function emitLoaderEntryChange(context: Context, name: string): void {
     entry: { options: { name } },
   } as unknown as Fiber)
 }
+
+describe('scoped republish manifests', () => {
+  function constructThroughResolveSync(loaderName: string, manifestName: string): ClientModuleRegistry {
+    const clientPath = writePackage(loaderName, { dsh: { client: { platform: 'web' } } }, { manifestName })
+    const hostPath = join(dirname(clientPath), 'index.js')
+    mkdirSync(dirname(hostPath), { recursive: true })
+    writeFileSync(hostPath, 'export default {}\n')
+    writeFileSync(clientPath, 'module.exports = {}\n')
+    const internal = {
+      version: 'v2' as const,
+      resolveSync: () => ({ format: 'module' as const, url: pathToFileURL(hostPath).href }),
+    }
+    return constructWithRoute([loaderName], {
+      internal: internal as unknown as NonNullable<Context['loader']['internal']>,
+    }).service
+  }
+
+  it('keeps the Loader specifier as the graph id when the manifest changes only the scope', () => {
+    const loaderName = '@deepseek-ai/dsh-alias-row'
+    expect(constructThroughResolveSync(loaderName, '@crazx/dsh-alias-row').graph().entries.map(entry => entry.id))
+      .toEqual([loaderName])
+  })
+
+  it('does not claim a scoped republish whose unscoped name differs', () => {
+    const loaderName = '@deepseek-ai/dsh-alias-miss'
+    expect(constructThroughResolveSync(loaderName, '@crazx/other-package').graph().entries).toEqual([])
+  })
+})
 
 describe('shared module declarations', () => {
   it('accepts external requests and carries them onto the graph row', () => {
